@@ -29,8 +29,8 @@ div {
   gap: 8px;
 }
 input {
-  width: 16px;
-  height: 16px;
+  width: 24px;
+  height: 24px;
 }
 span {
   color: rgb(var(--black));

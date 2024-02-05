@@ -18,7 +18,7 @@ const {
 const router = useRouter();
 
 function goToVote(voteId: string) {
-  router.push(`votings/${voteId}`);
+  router.push(`/votings/${voteId}`);
 }
 
 function checkHasVoted(vote: GovernmentVoteType) {
