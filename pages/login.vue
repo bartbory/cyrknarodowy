@@ -25,7 +25,7 @@ const signInWithPass = async () => {
     email: email.value,
     password: password.value,
     options: {
-      emailRedirectTo: "http://localhost:3000/user-profile",
+      emailRedirectTo: "/user-profile",
     },
   });
   navigateTo("/confirm");
@@ -41,18 +41,6 @@ const loginHandler = async () => {
     navigateTo("/user-profile");
   }
 };
-
-// const signInWithOtp = async () => {
-//   const { error } = await supabase.auth.signInWithOtp({
-//     email: email.value,
-//     options: {
-//       data: { consent: consent.value },
-//       emailRedirectTo: "http://localhost:3000/user-profile",
-//     },
-//   });
-//   navigateTo("/confirm");
-//   if (error) console.log(error);
-// };
 </script>
 <template>
   <BaseCard>

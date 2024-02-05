@@ -108,12 +108,6 @@ watch(activeSitting, (newSitting) => {
 </template>
 
 <style scoped>
-.list__container {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-}
-
 .dates__container {
   display: flex;
   gap: 8px;

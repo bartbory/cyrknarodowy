@@ -234,11 +234,6 @@ if (user && userVote.voteExist) {
 </template>
 
 <style scoped>
-.list__container {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-}
 
 section {
   display: flex;

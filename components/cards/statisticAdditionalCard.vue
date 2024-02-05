@@ -20,28 +20,35 @@ const props = defineProps({
 <template>
   <UiBaseCard>
     <h2>{{ title }}</h2>
-    <div class="head__row">
-      <p class="key">{{ tableTitle }}</p>
-      <div class="value">
-        <BaseIcon :icon="IconTypes.YesFont" :icon-size="16" />
+    <div class="votes__container">
+      <div class="head__row">
+        <p class="key">{{ tableTitle }}</p>
+        <div class="value">
+          <BaseIcon :icon="IconTypes.YesFont" :icon-size="16" />
+        </div>
+        <div class="value">
+          <BaseIcon :icon="IconTypes.NoFont" :icon-size="16" />
+        </div>
+        <div class="value">
+          <BaseIcon :icon="IconTypes.AbstainFont" :icon-size="16" />
+        </div>
       </div>
-      <div class="value">
-        <BaseIcon :icon="IconTypes.NoFont" :icon-size="16" />
+      <div class="row" v-for="votes in data" :key="votes.key">
+        <p class="key">{{ votes.key }}</p>
+        <p class="value">{{ votes.votes.yes.length }}</p>
+        <p class="value">{{ votes.votes.no.length }}</p>
+        <p class="value">{{ votes.votes.abstain.length }}</p>
       </div>
-      <div class="value">
-        <BaseIcon :icon="IconTypes.AbstainFont" :icon-size="16" />
-      </div>
-    </div>
-    <div class="row" v-for="votes in data" :key="votes.key">
-      <p class="key">{{ votes.key }}</p>
-      <p class="value">{{ votes.votes.yes.length }}</p>
-      <p class="value">{{ votes.votes.no.length }}</p>
-      <p class="value">{{ votes.votes.abstain.length }}</p>
     </div>
   </UiBaseCard>
 </template>
 
 <style scoped>
+.votes__container {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
 .head__row {
   background-color: rgb(var(--gray900));
   border-radius: 4px;
@@ -62,11 +69,18 @@ const props = defineProps({
   align-items: center;
   font-size: 16px;
   font-weight: 300;
-  padding: 2px 8px;
+  min-height: 32px;
+  padding: 2px 4px;
+  background-color: rgb(var(--white));
+  transition: 0.3s;
+}
+
+.row:hover {
+  background-color: rgb(var(--gray900));
 }
 .key {
-  max-width: 40%;
-  flex: 0 0 40%;
+  max-width: 55%;
+  flex: 0 0 55%;
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
@@ -75,7 +89,7 @@ const props = defineProps({
   text-overflow: ellipsis;
 }
 .value {
-  flex: 0 0 20%;
+  flex: 0 0 15%;
   text-align: center;
 }
 </style>
