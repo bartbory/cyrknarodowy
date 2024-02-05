@@ -1,0 +1,82 @@
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id           String   @id
+  name         String?
+  postalCode   String?
+  voidvodeship String?
+  birthYear    Int?
+  education    String   @default("Nie chcę powiedzieć")
+  gender       String   @default("Nie chcę powiedzieć")
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  votesYes     GovernmentVotes[]   @relation(name: "voteYes")
+  votesNo      GovernmentVotes[]   @relation(name: "voteNo")
+  votesAbstain GovernmentVotes[]   @relation(name: "voteAbstain")
+}
+
+model Vote {
+  id               String   @id
+  // userVotesYes     User[]   @relation(name: "voteYes")
+  // userVotesNo      User[]   @relation(name: "voteNo")
+  // userVotesAbstain User[]   @relation(name: "voteAbstain")
+  updatedAt        DateTime @updatedAt
+}
+
+model GovernmentVotes {
+  id               String @id @unique
+  date             String
+  abstain          Int
+  absent           Int    @default(0)
+  description      String @default("")
+  no               Int
+  yes              Int
+  sitting          Int
+  sittingDay       Int
+  term             Int
+  notParticipating Int    @default(0)
+  title            String @default("")
+  topic            String @default("")
+  totalVoted       Int
+  votingNumber     Int
+  kind             String
+  userVotesYes     User[]   @relation(name: "voteYes")
+  userVotesNo      User[]   @relation(name: "voteNo")
+  userVotesAbstain User[]   @relation(name: "voteAbstain")
+}
+
+model MPVote {
+  MP         Int      @unique
+  club       String
+  firstName  String
+  lastName   String
+  secondName String
+  vote       String
+  listVotes  String[]
+}
+
+enum Education {
+  Wyzsze
+  Srednie
+  Zawodowe
+  Gimanzjalne
+  PodstawoweUkonczone
+  PodstawoweNieukonczone
+  Nieustalone
+  NA
+}
+
+enum Gender {
+  Female
+  Male
+  NonBinary
+  NA
+}

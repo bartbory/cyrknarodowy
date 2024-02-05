@@ -1,0 +1,60 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;300;500;700&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --white: 255, 255, 255;
+  --black: 24, 24, 24;
+  --blue: 28, 99, 236;
+  --gray: 102, 102, 102;
+  --green100: 18, 83, 2;
+  --green700: 201, 255, 196;
+  --green900: 105, 235, 25;
+  --red100: 141, 19, 19;
+  --red700: 255, 205, 205;
+  --red900: 231, 90, 90;
+  --yellow100: 109, 93, 10;
+  --yellow700: 254, 243, 187;
+  --yellow900: 236, 203, 28;
+  --gray100: 129, 129, 129;
+  --gray300: 171, 171, 171;
+  --gray700: 201, 201, 201;
+  --gray900: 244, 244, 244;
+  --background: rgb(var(--gray900));
+}
+
+body {
+  width: 100%;
+  min-height: 100vh;
+  font-family: "Inter", "Helvetica", sans-serif;
+  color: rgb(var(--black));
+}
+
+h1 {
+  font-size: 32px;
+  font-weight: 100;
+}
+
+h2 {
+  font-size: 24px;
+  font-weight: 300;
+}
+
+h4 {
+  font-weight: 300;
+}
+
+button,
+p,
+a,
+h1,
+h2,
+h3,
+h4,
+h5 {
+  font-family: Inter;
+}
