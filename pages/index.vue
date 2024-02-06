@@ -6,6 +6,7 @@ import BaseDate from "~/components/ui/BaseDate.vue";
 import InfoCard from "~/components/cards/InfoCard.vue";
 import dateFormater from "~/helpers/dateFormater";
 
+//Auth Check
 const supabase = useSupabaseClient();
 const {
   data: { user },
@@ -21,47 +22,36 @@ if (user) {
   isLogged.value = true;
 }
 
+// Refs
 const votesToShow: Ref<GovernmentVoteType[]> = ref([]);
 const activeSitting = ref(
   routeSitting
     ? sittingDates.posiedzenia[+routeSitting - 1]
     : sittingDates.posiedzenia[0]
 );
-const activeDate = ref("");
+const activeDate = ref(activeSitting.value.dates[0]);
 const isLoading = ref(true);
 let votes: Ref<GovernmentVoteType[]> = ref([]);
 
-try {
-  const { data } = await useFetch(
-    `/api/${activeSitting.value.sitting}/getAllVotes`,
-    {
-      params: { sitting: activeSitting.value.sitting, date: activeDate },
-    }
-  );
-  if (data.value) {
-    votes.value = data.value.data;
-    isLoading.value = false;
-  }
-} catch (error) {
-  console.log(error);
-}
-
+// Fetch votes data
 async function fetchVotings(sitting: number) {
-  isLoading.value = true;
-  const { data, pending } = await useFetch(`/api/${sitting}/getAllVotes`, {
-    params: { sitting: sitting },
-  });
-  if (data.value) {
-    votes.value = data.value.data;
-    isLoading.value = false;
+  try {
+    const { data } = await useFetch(`/api/${sitting}/getAllVotes`, {
+      params: { sitting: sitting },
+    });
+    if (data.value) {
+      votes.value = data.value.data;
+      isLoading.value = false;
+      filterVotes(dateFormater(activeSitting.value.dates[0]));
+    }
+  } catch (error) {
+    console.log(error);
   }
 }
 
-function votingDate(date: string) {
-  const parseDate = dateFormater(date);
-  return parseDate;
-}
+await fetchVotings(activeSitting.value.sitting);
 
+// Filtering votes by date
 function filterVotes(date: string) {
   const filteredVotes = votes.value.filter((vote) => {
     if (dateFormater(vote.date) === date) {
@@ -71,6 +61,7 @@ function filterVotes(date: string) {
   votesToShow.value = filteredVotes;
 }
 
+// Watchers
 watch([activeSitting, activeDate], async ([newSitting, newDate]) => {
   isLoading.value = true;
   await fetchVotings(newSitting.sitting);
@@ -110,7 +101,7 @@ watch([activeSitting, activeDate], async ([newSitting, newDate]) => {
         <BaseDate
           v-for="(sittingDate, i) in activeSitting.dates"
           :key="i"
-          :text="votingDate(sittingDate)"
+          :text="dateFormater(sittingDate)"
           :has-icon="false"
           :button-type="
             dateFormater(sittingDate) === dateFormater(activeDate)

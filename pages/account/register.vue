@@ -36,7 +36,7 @@ const signInWithPass = async () => {
         data: {
           consent: consent.value,
         },
-        emailRedirectTo: "/account/user-profile",
+        emailRedirectTo: "/account/login",
       },
     });
     if (data) {

@@ -2,31 +2,9 @@
 import { IconTypes } from "~/types/types";
 import BaseButton from "../buttons/BaseButton.vue";
 
-const supabase = useSupabaseClient();
-
-let {
-  data: { user },
-} = await supabase.auth.getUser();
-
-const showUserDrop = ref(false);
 const showModal = ref(false);
 
-function showDropHandler() {
-  showUserDrop.value = !showUserDrop.value;
-}
-
-function logOutHandler() {
-  showDropHandler();
-  supabase.auth.signOut();
-  navigateTo("/");
-  user = null;
-}
-function logInHandler() {
-  showDropHandler();
-  navigateTo("/account/login");
-}
 function userProfileHandler() {
-  showDropHandler();
   navigateTo("/account/user-profile");
 }
 
@@ -45,17 +23,11 @@ function infoModalHandler() {
     <img src="/logo.png" @click="navigateTo('/')" />
     <BaseButton
       :has-icon="true"
-      :icon="showUserDrop ? IconTypes.NoFont : IconTypes.User"
+      :icon="IconTypes.User"
       text=""
-      :button-type="showUserDrop ? 'disable' : 'default'"
-      @click="showDropHandler()"
+      button-type="default"
+      @click="userProfileHandler()"
     />
-    <div class="side__box" v-if="showUserDrop">
-      <div v-if="user" @click="userProfileHandler()"><p>Moje dane</p></div>
-      <div @click="user ? logOutHandler() : logInHandler()">
-        <p>{{ user ? "Wyloguj" : "Zaloguj" }}</p>
-      </div>
-    </div>
   </div>
 
   <ModalInfo

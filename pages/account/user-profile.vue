@@ -101,6 +101,11 @@ if (user) {
     console.log(error);
   }
 }
+
+function logOutHandler() {
+  supabase.auth.signOut();
+  navigateTo("/");
+}
 </script>
 <template>
   <BaseCard>
@@ -145,13 +150,22 @@ if (user) {
       <p v-if="!formValid.valid" class="error__message">{{ formValid.msg }}</p>
 
       <BaseButton
-        text="Idę głosować"
+        text="Zapisz, idę głosować"
         :has-icon="false"
         button-type="default"
         type="submit"
       />
     </form>
     <UiLoading v-else text="Zapisuje dane" />
+
+    <hr />
+
+    <BaseButton
+      button-type="destroy"
+      text="Wyloguj"
+      :has-icon="false"
+      @click="logOutHandler()"
+    />
   </BaseCard>
 </template>
 
