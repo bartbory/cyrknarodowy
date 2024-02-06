@@ -1,7 +1,14 @@
 <script setup lang="ts">
 const props = defineProps({
   text: { type: String, required: true },
+  buttonType: {
+    type: String as PropType<"default" | "outline">,
+    required: false,
+    default: "default",
+  },
 });
+
+const emits = defineEmits(["date-select"]);
 
 const date = computed(() => {
   return props.text.split(".");
@@ -9,7 +16,7 @@ const date = computed(() => {
 </script>
 
 <template>
-  <div class="outline">
+  <div :class="buttonType" @click="emits('date-select', date.join('.'))">
     <p>{{ date[0] }}.{{ date[1] }}</p>
     <p>{{ date[2] }}</p>
   </div>
@@ -29,9 +36,14 @@ div {
   font-weight: 300;
   cursor: pointer;
 }
+.default {
+  border: 1px solid rgb(var(--blue));
+  background: rgb(var(--blue));
+  color: rgb(var(--white));
+}
 .outline {
-  border: 1px solid rgb(var(--gray300));
+  border: 1px solid rgb(var(--blue));
   background: rgb(var(--white));
-  color: rgb(var(--gray300));
+  color: rgb(var(--blue));
 }
 </style>

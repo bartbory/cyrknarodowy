@@ -16,8 +16,8 @@ const model = computed({
 </script>
 <template>
   <div>
-    <input type="checkbox" v-model="model" :value="value" />
-    <span>{{ label }}</span>
+    <input type="checkbox" v-model="model" :value="value" id="checkbox" />
+    <label for="checkbox">{{ label }}</label>
   </div>
 </template>
 
@@ -31,13 +31,14 @@ div {
 input {
   width: 24px;
   height: 24px;
+  flex-shrink: 0;
 }
-span {
+label {
   color: rgb(var(--black));
   font-family: Inter;
-  font-size: 8px;
+  font-size: 10px;
   font-style: normal;
-  font-weight: 400;
+  font-weight: 300;
   line-height: 14px;
 }
 </style>

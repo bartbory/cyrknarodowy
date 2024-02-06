@@ -22,7 +22,7 @@ const props = defineProps({
   display: flex;
   flex-direction: column;
   row-gap: 16px;
-  border-radius: 16px;
+  border-radius: 24px;
   padding: 16px;
   box-shadow: 0px 4px 8px 0px rgba(var(--black), 0.25);
 }

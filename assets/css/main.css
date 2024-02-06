@@ -32,6 +32,7 @@ body {
   min-height: 100vh;
   font-family: "Inter", "Helvetica", sans-serif;
   color: rgb(var(--black));
+  font-weight: 300;
 }
 
 h1 {
@@ -66,4 +67,15 @@ h5 {
   max-width: 1180px;
   margin: 0 auto;
   width: 100%;
+}
+
+.error__message {
+  font-size: 14px;
+  color: red;
+}
+
+hr {
+  margin: 24px auto;
+  width: 75%;
+  opacity: 0.3;
 }

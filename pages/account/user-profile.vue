@@ -26,6 +26,10 @@ const educationsArray = [
 ];
 const genderArray = [Gender.Female, Gender.Male, Gender.NonBinary, Gender.NA];
 
+let formValid = reactive({
+  msg: "",
+  valid: true,
+});
 const isLoading = ref(true);
 let userData = reactive({
   id: user ? user.id : "",
@@ -37,6 +41,17 @@ let userData = reactive({
   voidvodeship: "",
 });
 
+const postalRegExp = /^\d\d-\d\d\d$/;
+
+function checkIsPostalCodeValid() {
+  if (!postalRegExp.test(userData.postalCode)) {
+    console.log("niepoprawne kod pocztowy");
+    formValid.msg =
+      "Kod pocztowy powinien być w formacie 00-000. Sprawdź czy jest ok";
+    formValid.valid = false;
+  }
+}
+
 function educationSelectHandler(value: Education) {
   userData.education = value;
 }
@@ -46,14 +61,29 @@ function genderSelectHandler(value: Gender) {
 }
 
 async function subimtHandler() {
-  isLoading.value = true;
-  const { data: responseData } = await useFetch(`/api/users/create`, {
-    method: "post",
-    body: { userData },
-  });
-  if (responseData) {
-    isLoading.value = false;
-    navigateTo("/");
+  if (userData.postalCode) {
+    formValid.msg = "";
+    formValid.valid = true;
+    checkIsPostalCodeValid();
+    {
+      if (formValid.valid) {
+        isLoading.value = true;
+        const { data: responseData, error } = await useFetch(
+          `/api/users/create`,
+          {
+            method: "post",
+            body: { userData },
+          }
+        );
+        if (responseData) {
+          isLoading.value = false;
+          navigateTo("/");
+        }
+        if (error) {
+          console.log("Error : ", error.value);
+        }
+      }
+    }
   }
 }
 
@@ -92,6 +122,7 @@ if (user) {
         placeholder="00-000"
         v-model="userData.postalCode"
         type="text"
+        pattern="^\d{2}-\d{3}$"
       />
       <BaseInput
         label="Rok urodzenia"
@@ -111,6 +142,8 @@ if (user) {
         :default="userData.gender"
         @input="(gender: Gender) => genderSelectHandler(gender)"
       />
+      <p v-if="!formValid.valid" class="error__message">{{ formValid.msg }}</p>
+
       <BaseButton
         text="Idę głosować"
         :has-icon="false"
@@ -118,7 +151,7 @@ if (user) {
         type="submit"
       />
     </form>
-    <UiLoading v-else />
+    <UiLoading v-else text="Zapisuje dane" />
   </BaseCard>
 </template>
 

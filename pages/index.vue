@@ -4,6 +4,7 @@ import sittingDates from "../assets/sittingDates.json";
 import type { GovernmentVoteType } from "~/types/types";
 import BaseDate from "~/components/ui/BaseDate.vue";
 import InfoCard from "~/components/cards/InfoCard.vue";
+import dateFormater from "~/helpers/dateFormater";
 
 const supabase = useSupabaseClient();
 const {
@@ -19,25 +20,17 @@ const isLogged = ref(false);
 if (user) {
   isLogged.value = true;
 }
+
+const votesToShow: Ref<GovernmentVoteType[]> = ref([]);
 const activeSitting = ref(
   routeSitting
     ? sittingDates.posiedzenia[+routeSitting - 1]
     : sittingDates.posiedzenia[0]
 );
-const activeDate = ref(new Date(activeSitting.value.dates[0]));
+const activeDate = ref("");
 const isLoading = ref(true);
 let votes: Ref<GovernmentVoteType[]> = ref([]);
 
-async function fetchVotings(sitting: number) {
-  isLoading.value = true;
-  const { data, pending } = await useFetch(`/api/${sitting}/getAllVotes`, {
-    params: { sitting: sitting },
-  });
-  if (data.value) {
-    votes.value = data.value.data;
-    isLoading.value = false;
-  }
-}
 try {
   const { data } = await useFetch(
     `/api/${activeSitting.value.sitting}/getAllVotes`,
@@ -52,58 +45,91 @@ try {
 } catch (error) {
   console.log(error);
 }
-const votingDate = (date: string) => {
-  const parseDate = new Date(date).toLocaleDateString("pl-PL", {
-    year: "numeric",
-    month: "numeric",
-    day: "numeric",
-  });
-  return parseDate;
-};
 
-watch(activeSitting, (newSitting) => {
+async function fetchVotings(sitting: number) {
   isLoading.value = true;
-  fetchVotings(newSitting.sitting);
+  const { data, pending } = await useFetch(`/api/${sitting}/getAllVotes`, {
+    params: { sitting: sitting },
+  });
+  if (data.value) {
+    votes.value = data.value.data;
+    isLoading.value = false;
+  }
+}
+
+function votingDate(date: string) {
+  const parseDate = dateFormater(date);
+  return parseDate;
+}
+
+function filterVotes(date: string) {
+  const filteredVotes = votes.value.filter((vote) => {
+    if (dateFormater(vote.date) === date) {
+      return vote;
+    }
+  });
+  votesToShow.value = filteredVotes;
+}
+
+watch([activeSitting, activeDate], async ([newSitting, newDate]) => {
+  isLoading.value = true;
+  await fetchVotings(newSitting.sitting);
+  filterVotes(dateFormater(newDate));
 });
 </script>
 
 <template>
   <div class="list__container">
     <h1>Lista głosowań</h1>
-    <h2>Posiedzenie</h2>
-    <div class="dates__container">
-      <ButtonsBaseButton
-        v-for="(sitting, i) in sittingDates.posiedzenia"
-        :key="sitting.dates[i]"
-        :text="sitting.sitting.toString()"
-        :has-icon="false"
-        :button-type="
-          sitting.sitting === activeSitting.sitting ? 'default' : 'outline'
-        "
-        @click="
-          () => {
-            activeDate = new Date(sitting.dates[0]);
-            activeSitting = sitting;
-            router.push(`?sitting=${sitting.sitting}`);
-          }
-        "
-      />
-    </div>
-    <div>
-      <h4>Daty</h4>
+
+    <div class="slide__container">
+      <h2>Posiedzenie</h2>
       <div class="dates__container">
-        <BaseDate
-          v-for="(sitting, i) in activeSitting.dates"
-          :key="i"
-          :text="votingDate(sitting)"
+        <ButtonsBaseButton
+          v-for="(sitting, i) in sittingDates.posiedzenia"
+          :key="sitting.dates[i]"
+          :text="sitting.sitting.toString()"
           :has-icon="false"
-          :button-type="'disable'"
+          :button-type="
+            sitting.sitting === activeSitting.sitting ? 'default' : 'outline'
+          "
+          @click="
+            () => {
+              router.push(`?sitting=${sitting.sitting}`);
+              activeSitting = sitting;
+              activeDate = sitting.dates[0];
+            }
+          "
         />
       </div>
     </div>
+
+    <div class="slide__container">
+      <h4>Daty</h4>
+      <div class="dates__container">
+        <BaseDate
+          v-for="(sittingDate, i) in activeSitting.dates"
+          :key="i"
+          :text="votingDate(sittingDate)"
+          :has-icon="false"
+          :button-type="
+            dateFormater(sittingDate) === dateFormater(activeDate)
+              ? 'default'
+              : 'outline'
+          "
+          @date-select="
+            () => {
+              activeDate = sittingDate;
+              filterVotes(sittingDate);
+            }
+          "
+        />
+      </div>
+    </div>
+
     <InfoCard v-if="!isLogged" />
     <UiLoading v-if="isLoading" />
-    <VotesList :votes="votes" v-if="votes && !isLoading" />
+    <VotesList :votes="votesToShow" v-if="votes && !isLoading" />
   </div>
 </template>
 
@@ -116,7 +142,13 @@ watch(activeSitting, (newSitting) => {
 }
 
 .dates__container:deep(button) {
-  font-size: 12px;
-  min-width: 56px;
+  font-size: 14px;
+  min-width: 48px;
+}
+
+.slide__container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 </style>

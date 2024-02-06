@@ -33,7 +33,8 @@ export interface MPVote {
 
 export interface UserRegister {
   email: string;
-  consent: boolean;
+  password: string;
+  consent?: boolean;
 }
 
 export interface UserData {

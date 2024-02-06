@@ -4,7 +4,7 @@ import BaseCard from "../ui/BaseCard.vue";
 import { IconTypes } from "~/types/types";
 
 function goToRegister() {
-  navigateTo("/login");
+  navigateTo("/account/login");
 }
 </script>
 

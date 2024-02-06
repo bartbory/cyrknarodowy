@@ -8,9 +8,9 @@ export default defineNuxtConfig({
   },
   supabase: {
     redirectOptions: {
-      login: "/login",
+      login: "/account/login",
       callback: "/confirm",
-      exclude: ["/", "/votings/*"],
+      exclude: ["/", "/votings/*", "/account/register"],
       cookieRedirect: false,
     },
   },

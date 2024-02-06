@@ -4,6 +4,7 @@ import BaseCard from "../ui/BaseCard.vue";
 import BaseIcon from "../ui/BaseIcon.vue";
 import type { GovernmentVoteType } from "~/types/types";
 import { IconTypes } from "~/types/types";
+import dateFormater from "~/helpers/dateFormater";
 
 const props = defineProps({
   data: { type: Object as PropType<GovernmentVoteType>, required: true },
@@ -11,11 +12,7 @@ const props = defineProps({
   hasVoted: { type: Boolean, default: false },
 });
 const votingDate = computed(() => {
-  const parseDate = new Date(props.data.date).toLocaleDateString("pl-PL", {
-    year: "numeric",
-    month: "numeric",
-    day: "numeric",
-  });
+  const parseDate = dateFormater(new Date(props.data.date));
   return parseDate;
 });
 </script>

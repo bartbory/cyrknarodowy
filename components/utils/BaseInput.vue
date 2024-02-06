@@ -17,6 +17,9 @@ const props = defineProps({
     default: "text",
   },
   placeholder: { type: String, default: "text" },
+  description: { type: String, required: false, default: "" },
+  min: { type: Number, required: false, default: 3 },
+  max: { type: Number, required: false, default: 64 },
 });
 
 const emits = defineEmits(["update:modelValue"]);
@@ -27,11 +30,14 @@ const emits = defineEmits(["update:modelValue"]);
     <label v-if="label" :for="id" class="font-bold block">
       {{ label }}
     </label>
+    <p class="description">{{ description }}</p>
     <input
       :id="id"
       :type="type"
       :value="modelValue"
       :placeholder="placeholder"
+      :minlength="min"
+      :maxlength="max"
       @input="
         $emit('update:modelValue', ($event.target as HTMLInputElement).value)
       "
@@ -63,6 +69,10 @@ input {
   color: rgb(var(--black));
   border: none;
   font-size: 14px;
+  font-weight: 300;
+}
+.description {
+  font-size: 10px;
   font-weight: 300;
 }
 

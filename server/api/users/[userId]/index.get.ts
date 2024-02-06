@@ -10,7 +10,7 @@ export default defineEventHandler(async (event) => {
     name: "",
     gender: "",
     education: "",
-    birthYear: 0,
+    birthYear: null,
     postalCode: "",
     voidvodeship: "",
   });
@@ -36,5 +36,6 @@ export default defineEventHandler(async (event) => {
   } catch (error: any) {
     //handle error here
     console.log("Error:", error);
+    return { error };
   }
 });

@@ -4,7 +4,7 @@ import BaseButton from "../buttons/BaseButton.vue";
 
 const supabase = useSupabaseClient();
 
-const {
+let {
   data: { user },
 } = await supabase.auth.getUser();
 
@@ -19,14 +19,15 @@ function logOutHandler() {
   showDropHandler();
   supabase.auth.signOut();
   navigateTo("/");
+  user = null;
 }
 function logInHandler() {
   showDropHandler();
-  navigateTo("/login");
+  navigateTo("/account/login");
 }
 function userProfileHandler() {
   showDropHandler();
-  navigateTo("/user-profile");
+  navigateTo("/account/user-profile");
 }
 
 function infoModalHandler() {
