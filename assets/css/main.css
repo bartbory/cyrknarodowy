@@ -33,6 +33,10 @@ body {
   font-family: "Inter", "Helvetica", sans-serif;
   color: rgb(var(--black));
   font-weight: 300;
+  background-image: url("/bg.jpg");
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
 }
 
 h1 {
