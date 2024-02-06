@@ -13,6 +13,7 @@
     "@nuxtjs/supabase": "^1.1.6",
     "@vite-pwa/nuxt": "^0.4.0",
     "nuxt": "^3.9.3",
+    "nuxt-gtag": "^1.1.2",
     "prisma": "^5.8.1",
     "typescript": "^5.3.3",
     "vue": "^3.4.14",

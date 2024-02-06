@@ -6,6 +6,26 @@ import BaseDate from "~/components/ui/BaseDate.vue";
 import InfoCard from "~/components/cards/InfoCard.vue";
 import dateFormater from "~/helpers/dateFormater";
 
+useHead({
+  title: "Cyrk Narodowy",
+  meta: [
+    { name: "author", content: "Bartosz Borycki" },
+    { name: "viewport", content: "width=device-width, initial-scale=1.0" },
+  ],
+  htmlAttrs: {
+    lang: "pl-PL",
+  },
+});
+
+useSeoMeta({
+  ogTitle: "Cyrk Narodowy",
+  description:
+    "Zostań wirtualnym posłem i bierz udział w głosowaniach! Zobaczmy, czy naród podziela zdanie posłów :)",
+  ogDescription:
+    "Zostań wirtualnym posłem i bierz udział w głosowaniach! Zobaczmy, czy naród podziela zdanie posłów :)",
+  // ogImage: ogGraphic,
+});
+
 //Auth Check
 const supabase = useSupabaseClient();
 const {
