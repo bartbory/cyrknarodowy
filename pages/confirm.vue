@@ -1,6 +1,25 @@
 <script setup lang="ts">
 import BaseCard from "~/components/ui/BaseCard.vue";
 
+useHead({
+  title: `Cyrk Narodowy - Profil użytkownika`,
+  meta: [
+    { name: "author", content: "Bartosz Borycki" },
+    { name: "viewport", content: "width=device-width, initial-scale=1.0" },
+  ],
+  htmlAttrs: {
+    lang: "pl-PL",
+  },
+});
+
+useSeoMeta({
+  ogTitle: "Cyrk Narodowy",
+  description:
+    "Zostań wirtualnym posłem i bierz udział w głosowaniach! Zobaczmy, czy naród podziela zdanie posłów :)",
+  ogDescription:
+    "Zostań wirtualnym posłem i bierz udział w głosowaniach! Zobaczmy, czy naród podziela zdanie posłów :)",
+  ogImage: "/ogImage.png",
+});
 </script>
 
 <template>
@@ -17,8 +36,8 @@ import BaseCard from "~/components/ui/BaseCard.vue";
       dobrowolne i możesz je w każdym momencie usunąć.
     </p>
     <p>
-      Mam jednak nadzieję, że zostaniesz z nami na dłużej i będziesz głosować
-      jak Ci serce i rozum podpowiada :) Miłej zabawy!
+      Mam jednak nadzieję, że zostaniesz tutaj na dłużej i będziesz głosować jak
+      Ci ❤️ i 🧠 podpowiada 😉 Miłej zabawy!
     </p>
   </BaseCard>
 </template>

@@ -4,6 +4,26 @@ import BaseInput from "~/components/utils/BaseInput.vue";
 import BaseCard from "~/components/ui/BaseCard.vue";
 const supabase = useSupabaseClient();
 
+useHead({
+  title: `Cyrk Narodowy - Logowanie`,
+  meta: [
+    { name: "author", content: "Bartosz Borycki" },
+    { name: "viewport", content: "width=device-width, initial-scale=1.0" },
+  ],
+  htmlAttrs: {
+    lang: "pl-PL",
+  },
+});
+
+useSeoMeta({
+  ogTitle: "Cyrk Narodowy",
+  description:
+    "Zostań wirtualnym posłem i bierz udział w głosowaniach! Zobaczmy, czy naród podziela zdanie posłów :)",
+  ogDescription:
+    "Zostań wirtualnym posłem i bierz udział w głosowaniach! Zobaczmy, czy naród podziela zdanie posłów :)",
+  ogImage: "/ogImage.png",
+});
+
 const email = ref("");
 const password = ref("");
 let formValid = reactive({

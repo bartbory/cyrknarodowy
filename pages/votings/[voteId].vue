@@ -9,6 +9,7 @@ import checkForVotes from "~/helpers/checkForVotes";
 definePageMeta({
   middleware: ["auth"],
 });
+
 const supabase = useSupabaseClient();
 
 const router = useRouter();
@@ -96,6 +97,7 @@ async function userVoteHandler(voteId: string, decision: string) {
 }
 
 function goBack() {
+  loadingMessage.value = "Wczytuję...";
   isLoading.value = true;
   router.go(-1);
 }
@@ -169,6 +171,26 @@ if (user && userVote.voteExist) {
     console.log(error);
   }
 }
+
+useHead({
+  title: `Cyrk Narodowy - Głosowanie ${route.params.voteId}`,
+  meta: [
+    { name: "author", content: "Bartosz Borycki" },
+    { name: "viewport", content: "width=device-width, initial-scale=1.0" },
+  ],
+  htmlAttrs: {
+    lang: "pl-PL",
+  },
+});
+
+useSeoMeta({
+  ogTitle: "Cyrk Narodowy",
+  description:
+    "Zostań wirtualnym posłem i bierz udział w głosowaniach! Zobaczmy, czy naród podziela zdanie posłów :)",
+  ogDescription:
+    "Zostań wirtualnym posłem i bierz udział w głosowaniach! Zobaczmy, czy naród podziela zdanie posłów :)",
+  ogImage: "/ogImage.png",
+});
 </script>
 
 <template>
@@ -234,7 +256,6 @@ if (user && userVote.voteExist) {
 </template>
 
 <style scoped>
-
 section {
   display: flex;
   flex-direction: column;
