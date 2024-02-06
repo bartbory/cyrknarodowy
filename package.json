@@ -7,10 +7,12 @@
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "postinstall": "nuxt prepare",
+    "generate-pwa-assets": "pwa-assets-generator --preset minimal-2023 public/icon.png"
   },
   "devDependencies": {
     "@nuxtjs/supabase": "^1.1.6",
+    "@vite-pwa/assets-generator": "^0.2.3",
     "@vite-pwa/nuxt": "^0.4.0",
     "nuxt": "^3.9.3",
     "nuxt-gtag": "^1.1.2",

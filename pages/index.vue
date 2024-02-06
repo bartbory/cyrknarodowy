@@ -23,7 +23,7 @@ useSeoMeta({
     "Zostań wirtualnym posłem i bierz udział w głosowaniach! Zobaczmy, czy naród podziela zdanie posłów :)",
   ogDescription:
     "Zostań wirtualnym posłem i bierz udział w głosowaniach! Zobaczmy, czy naród podziela zdanie posłów :)",
-  // ogImage: ogGraphic,
+  ogImage: "/ogImage.png",
 });
 
 //Auth Check
