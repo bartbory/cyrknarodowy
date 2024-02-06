@@ -4,7 +4,7 @@ export default defineNuxtConfig({
   modules: ["@vite-pwa/nuxt", "@nuxtjs/supabase", "nuxt-gtag"],
   css: ["~/assets/css/main.css"],
   gtag: {
-    id: "G-TQ9TPM7580",
+    id: "G-R66G4PS0TZ",
   },
   typescript: {
     typeCheck: false,
