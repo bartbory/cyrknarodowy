@@ -66,6 +66,7 @@ function infoModalHandler() {
 img {
   max-height: 40px;
   max-width: 60%;
+  cursor: pointer;
 }
 
 .side__box {

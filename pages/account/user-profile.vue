@@ -109,7 +109,10 @@ function logOutHandler() {
 </script>
 <template>
   <BaseCard>
-    <h1>Uzupełnij swoje dane</h1>
+    <h1>
+      Cześć <span v-if="userData.name">{{ userData.name }}</span
+      >! Uzupełnij swoje dane
+    </h1>
     <p>
       Wszystkie pola są dobrowolne. Dzięki ich wypełnieniu pozwolisz nam zbierać
       bardziej rzetelne statystyki. Nie przekazujemy nigdzie Twoich danych. W

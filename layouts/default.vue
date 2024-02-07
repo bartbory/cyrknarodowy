@@ -6,6 +6,7 @@ import TopBar from "../components/ui/TopBar.vue";
   <main>
     <slot> </slot>
   </main>
+  <UiModalFooter />
 </template>
 
 <style scoped>

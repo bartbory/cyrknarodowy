@@ -27,6 +27,7 @@
   gap: 8px;
   justify-content: center;
   align-items: center;
+
 }
 
 .footer__row {

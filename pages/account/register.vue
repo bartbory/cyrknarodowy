@@ -87,6 +87,7 @@ function goToLogin() {
 </script>
 <template>
   <BaseCard>
+    <h1>Rejestracja</h1>
     <form @submit.prevent="signInWithPass">
       <BaseInput
         label="E-mail"

@@ -67,6 +67,7 @@ function goToRegister() {
 </script>
 <template>
   <BaseCard>
+    <h1>Logowanie</h1>
     <form @submit.prevent="loginHandler">
       <BaseInput
         label="E-mail"
