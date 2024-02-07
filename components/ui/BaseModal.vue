@@ -42,5 +42,7 @@ const emits = defineEmits(["close"]);
   padding: 16px;
   box-shadow: 0px 4px 8px 0px rgba(var(--black), 0.25);
   background-color: rgb(var(--white));
+  max-height: 80vh;
+  overflow: scroll;
 }
 </style>

@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import type { StatisticsData, GovernmentVoteType } from "~/types/types";
+import type { StatisticsData, ReferendumVoteType } from "~/types/types";
 import BaseButton from "~/components/buttons/BaseButton.vue";
 import VotingCard from "~/components/cards/VotingCard.vue";
 import InfoCard from "~/components/cards/InfoCard.vue";
-import VoteItem from "~/components/cards/VoteItem.vue";
 import checkForVotes from "~/helpers/checkForVotes";
+import ReferendumItem from "~/components/cards/ReferendumItem.vue";
 
 const supabase = useSupabaseClient();
 
@@ -24,23 +24,13 @@ if (user) {
 let loadingMessage = ref("Wczytuje dane");
 let isLoading = ref(true);
 
-let vote: GovernmentVoteType = reactive({
+let vote: ReferendumVoteType = reactive({
   id: "",
+  votingNumber: 0,
   date: "",
-  abstain: 0,
   description: "",
-  no: 0,
-  yes: 0,
-  sitting: 0,
-  sittingDay: 0,
-  term: 0,
-  notParticipating: 0,
   title: "",
   topic: "",
-  totalVoted: 0,
-  votingNumber: 0,
-  kind: "",
-  votes: [],
   userVotesYes: [],
   userVotesNo: [],
   userVotesAbstain: [],
@@ -60,16 +50,17 @@ let userVote = reactive({
 
 try {
   isLoading.value = true;
-  const { data } = await useFetch(`/api/votes/${route.params.voteId}`);
+  const { data } = await useFetch(
+    `/api/votes/referendum/${route.params.refId}`,
+    { method: "get" }
+  );
   if (data.value && data.value.result) {
     vote = data.value.result;
     if (user && vote) {
       if (checkForVotes(vote.userVotesAbstain, user.id)) {
-        userVote.voteExist = true;
         userVote.vote = "abstain";
         userVote.voteMsg = "Twój głos: Wstrzymuję się";
       } else if (checkForVotes(vote.userVotesNo, user.id)) {
-        userVote.voteExist = true;
         userVote.vote = "no";
         userVote.voteMsg = "Twój głos: Przeciw";
       } else if (checkForVotes(vote.userVotesYes, user.id)) {
@@ -77,16 +68,17 @@ try {
         userVote.vote = "yes";
         userVote.voteMsg = "Twój głos: Za";
       }
+    } else {
+      isLoading.value = false;
     }
-    isLoading.value = false;
   }
 } catch (error) {
   console.log(error);
 }
 
-async function userVoteHandler(voteId: string, decision: string) {
+async function userVoteHandler(refId: string, decision: string) {
   isLoading.value = true;
-  await useFetch(`/api/votes/${voteId}`, {
+  await useFetch(`/api/votes/referendum/${refId}`, {
     method: "post",
     body: { user: user!.id, vote: decision },
   });
@@ -135,16 +127,17 @@ async function saveAbstain() {
   isLoading.value = false;
 }
 
-async function getStats(voteId: string) {
+async function getStats(refId: string) {
+  isLoading.value = true;
   try {
-    isLoading.value = true;
-    const { data } = await useFetch(`/api/votes/${voteId}/stats`);
+    const { data } = await useFetch(`/api/votes/referendum/${refId}/stats`);
     if (data.value) {
       genderVotes.value = data.value.data.gender;
       educationVotes.value = data.value.data.education;
       voidvodeshipVotes.value = data.value.data.voidvodeship;
       ageVotes.value = data.value.data.age;
       usersVotes.value = data.value.data.votes;
+      isLoading.value = false;
     }
   } catch (error) {
     console.log(error);
@@ -154,7 +147,9 @@ async function getStats(voteId: string) {
 if (user && userVote.voteExist) {
   try {
     isLoading.value = true;
-    const { data } = await useFetch(`/api/votes/${route.params.voteId}/stats`);
+    const { data } = await useFetch(
+      `/api/votes/referendum/${route.params.refId}/stats`
+    );
     if (data.value) {
       genderVotes.value = data.value.data.gender;
       educationVotes.value = data.value.data.education;
@@ -169,7 +164,7 @@ if (user && userVote.voteExist) {
 }
 
 useHead({
-  title: `Cyrk Narodowy - Głosowanie ${route.params.voteId}`,
+  title: `Cyrk Narodowy - Referendum ${route.params.voteId}`,
   meta: [
     { name: "author", content: "Bartosz Borycki" },
     { name: "viewport", content: "width=device-width, initial-scale=1.0" },
@@ -180,7 +175,7 @@ useHead({
 });
 
 useSeoMeta({
-  ogTitle: "Cyrk Narodowy",
+  ogTitle: "Cyrk Narodowy - Referendum",
   description:
     "Zostań wirtualnym posłem i bierz udział w głosowaniach! Zobaczmy, czy naród podziela zdanie posłów :)",
   ogDescription:
@@ -194,7 +189,7 @@ useSeoMeta({
     <h1>Oddaj swój głos</h1>
     <BaseButton text="Wróć" :hasIcon="false" @click="goBack" />
     <UiLoading v-if="isLoading" :text="loadingMessage" />
-    <VoteItem :hasAction="false" :data="vote" v-if="!isLoading && vote" />
+    <ReferendumItem :hasAction="false" :data="vote" v-if="!isLoading && vote" />
     <InfoCard v-if="!isLogged" />
     <VotingCard
       v-if="!isLoading && user && vote && !userVote.voteExist"
@@ -209,12 +204,6 @@ useSeoMeta({
       button-type="disable"
     />
     <section v-if="!isLoading">
-      <CardsStatisticMainCard
-        :data="vote"
-        title="Głosowanie posłów"
-        v-if="vote"
-      />
-      <h1 v-if="userVote.voteExist">Głosowanie narodu</h1>
       <div class="votes__stats__container">
         <CardsStatisticAdditionalCard
           v-if="usersVotes && userVote.voteExist"

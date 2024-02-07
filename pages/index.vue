@@ -66,6 +66,7 @@ async function fetchVotings(sitting: number) {
     }
   } catch (error) {
     console.log(error);
+    isLoading.value = false;
   }
 }
 
@@ -95,23 +96,37 @@ watch([activeSitting, activeDate], async ([newSitting, newDate]) => {
 
     <div class="slide__container">
       <h2>Posiedzenie</h2>
-      <div class="dates__container">
-        <ButtonsBaseButton
-          v-for="(sitting, i) in sittingDates.posiedzenia"
-          :key="sitting.dates[i]"
-          :text="sitting.sitting.toString()"
-          :has-icon="false"
-          :button-type="
-            sitting.sitting === activeSitting.sitting ? 'default' : 'outline'
-          "
-          @click="
-            () => {
-              router.push(`?sitting=${sitting.sitting}`);
-              activeSitting = sitting;
-              activeDate = sitting.dates[0];
-            }
-          "
-        />
+      <div class="selector__container">
+        <div class="dates__container">
+          <ButtonsBaseButton
+            v-for="(sitting, i) in sittingDates.posiedzenia"
+            :key="sitting.dates[i]"
+            :text="sitting.sitting.toString()"
+            :has-icon="false"
+            :button-type="
+              sitting.sitting === activeSitting.sitting ? 'default' : 'outline'
+            "
+            @click="
+              () => {
+                router.push(`?sitting=${sitting.sitting}`);
+                activeSitting = sitting;
+                activeDate = sitting.dates[0];
+              }
+            "
+          />
+        </div>
+        <div>
+          <ButtonsBaseButton
+            text="Referenda"
+            :has-icon="false"
+            button-type="outline"
+            @click="
+              () => {
+                router.push(`/votings/referendum`);
+              }
+            "
+          />
+        </div>
       </div>
     </div>
 
@@ -145,11 +160,16 @@ watch([activeSitting, activeDate], async ([newSitting, newDate]) => {
 </template>
 
 <style scoped>
+.selector__container {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+}
 .dates__container {
   display: flex;
   gap: 8px;
   overflow-x: scroll;
-  flex-shrink: 0;
+  flex-shrink: 1;
 }
 
 .dates__container:deep(button) {

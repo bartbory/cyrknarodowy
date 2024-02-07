@@ -37,7 +37,6 @@ const passRegExp = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/;
 
 function checkIsPassValid() {
   if (!passRegExp.test(password.value)) {
-    console.log("niepoprawne hasło");
     formValid.msg =
       "Hasło powinno zawierać przynajmniej 6 znaków, jedną cyfrę oraz znak specjalny.";
     formValid.valid = false;
@@ -63,7 +62,6 @@ const signInWithPass = async () => {
       navigateTo("/confirm");
     }
     if (error) {
-      console.log("Register error: ", error.status, error.message);
       switch (error.status) {
         case 400:
           formValid.msg = "Dane logowania nie są poprawne";

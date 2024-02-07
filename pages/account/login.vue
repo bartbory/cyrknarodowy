@@ -43,7 +43,6 @@ const loginHandler = async () => {
       navigateTo("/account/user-profile");
     }
     if (error) {
-      console.log("Login error: ", error.status, error.message);
       switch (error.status) {
         case 400:
           formValid.msg = "Dane logowania nie są poprawne";

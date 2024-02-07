@@ -1,12 +1,24 @@
 <script setup lang="ts">
 import type { PropType } from "vue";
 import VoteItem from "../cards/VoteItem.vue";
-import type { GovernmentVoteType, UserData } from "~/types/types";
+import ReferendumItem from "../cards/ReferendumItem.vue";
+import type {
+  GovernmentVoteType,
+  ReferendumVoteType,
+  UserData,
+} from "~/types/types";
 
 const props = defineProps({
   votes: {
-    type: Object as PropType<GovernmentVoteType[] | null>,
+    type: Object as PropType<
+      GovernmentVoteType[] | ReferendumVoteType[] | null
+    >,
     required: true,
+  },
+  display: {
+    type: String as PropType<"vote" | "referendum">,
+    required: false,
+    default: "vote",
   },
 });
 
@@ -18,10 +30,14 @@ const {
 const router = useRouter();
 
 function goToVote(voteId: string) {
-  router.push(`/votings/${voteId}`);
+  if (props.display === "vote") {
+    router.push(`/votings/${voteId}`);
+  } else {
+    router.push(`/votings/referendum/${voteId}`);
+  }
 }
 
-function checkHasVoted(vote: GovernmentVoteType) {
+function checkHasVoted(vote: GovernmentVoteType | ReferendumVoteType) {
   if (user) {
     let hasVoted = false;
     if (
@@ -41,11 +57,22 @@ function checkHasVoted(vote: GovernmentVoteType) {
   <p v-if="votes?.length === 0">Brak informacji.</p>
   <section class="list" v-else>
     <VoteItem
+      v-if="display === 'vote'"
       v-for="item in votes?.sort((a, b) =>
         a.votingNumber > b.votingNumber ? 1 : -1
       )"
       :key="item.votingNumber"
-      :data="item"
+      :data="(item as GovernmentVoteType)"
+      :has-voted="checkHasVoted(item)"
+      @click="goToVote(item.id)"
+    />
+    <ReferendumItem
+      v-if="display === 'referendum'"
+      v-for="item in votes?.sort((a, b) =>
+        a.votingNumber > b.votingNumber ? -1 : 1
+      )"
+      :key="item.votingNumber"
+      :data="(item as ReferendumVoteType)"
       :has-voted="checkHasVoted(item)"
       @click="goToVote(item.id)"
     />

@@ -8,12 +8,12 @@
         <NuxtLink
           to="https://www.linkedin.com/in/bartosz-borycki-8307527b/"
           target="_blank"
-          >Bartosz Borycki </NuxtLink
-        >|
-        <NuxtLink to="https://buycoffee.to/bartoszborycki" target="_blank"
-          >Postaw kawę ☕️</NuxtLink
-        >
+          >Bartosz Borycki
+        </NuxtLink>
       </p>
+      <NuxtLink to="https://buycoffee.to/bartoszborycki" target="_blank"
+        ><div><img src="/buycoffee.png" width="100px" /></div
+      ></NuxtLink>
     </div>
   </div>
 </template>
@@ -27,7 +27,6 @@
   gap: 8px;
   justify-content: center;
   align-items: center;
-
 }
 
 .footer__row {
@@ -37,5 +36,9 @@
 
 .footer__container a {
   color: rgb(var(--blue));
+}
+
+.footer__row > img {
+  width: 100px;
 }
 </style>

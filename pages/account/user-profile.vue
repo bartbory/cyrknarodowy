@@ -45,7 +45,6 @@ const postalRegExp = /^\d\d-\d\d\d$/;
 
 function checkIsPostalCodeValid() {
   if (!postalRegExp.test(userData.postalCode)) {
-    console.log("niepoprawne kod pocztowy");
     formValid.msg =
       "Kod pocztowy powinien być w formacie 00-000. Sprawdź czy jest ok";
     formValid.valid = false;
@@ -81,6 +80,7 @@ async function subimtHandler() {
         }
         if (error) {
           console.log("Error : ", error.value);
+          isLoading.value = false;
         }
       }
     }
@@ -99,6 +99,7 @@ if (user) {
     isLoading.value = false;
   } catch (error) {
     console.log(error);
+    isLoading.value = false;
   }
 }
 

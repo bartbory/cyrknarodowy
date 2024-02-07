@@ -7,7 +7,7 @@ import { IconTypes } from "~/types/types";
 import dateFormater from "~/helpers/dateFormater";
 
 const props = defineProps({
-  data: { type: Object as PropType<GovernmentVoteType>, required: true },
+  data: { type: Object as PropType<ReferendumVoteType>, required: true },
   hasAction: { type: Boolean, default: true },
   hasVoted: { type: Boolean, default: false },
 });
@@ -20,11 +20,6 @@ const votingDate = computed(() => {
 <template>
   <div>
     <BaseCard>
-      <div class="card__info">
-        <p>{{ votingDate }}</p>
-        <p class="op--6">Posiedzenie {{ data.sitting }}</p>
-        <p class="op--6">Głosowanie {{ data.votingNumber }}</p>
-      </div>
       <div class="card__data">
         <h3>{{ data.title }}</h3>
         <p v-if="data.topic">{{ data.topic }}</p>

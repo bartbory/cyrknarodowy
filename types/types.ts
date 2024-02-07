@@ -20,6 +20,17 @@ export interface GovernmentVoteType {
   userVotesNo: UserData[];
   userVotesAbstain: UserData[];
 }
+export interface ReferendumVoteType {
+  id: string;
+  votingNumber: number;
+  date: string;
+  description?: string;
+  title: string;
+  topic: string;
+  userVotesYes: UserData[];
+  userVotesNo: UserData[];
+  userVotesAbstain: UserData[];
+}
 
 export interface MPVote {
   MP: number;

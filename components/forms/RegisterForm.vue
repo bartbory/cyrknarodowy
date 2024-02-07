@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import BaseButton from "../buttons/BaseButton.vue";
 import BaseInput from "../utils/BaseInput.vue";
-import BaseCard from "../ui/BaseCard.vue";
+import Loading from "../ui/Loading.vue";
 import type { UserRegister } from "~/types/types";
 
 const emits = defineEmits(["submitFormHandler"]);
 
+const isLoading = ref(false);
 const email = ref("");
 const password = ref("");
 const consent = ref(false);
@@ -15,6 +16,7 @@ const formValid = reactive({
 });
 
 function submitHandler() {
+  isLoading.value = true;
   if (checkIsPassValid()) {
     const data: UserRegister = {
       email: email.value,
@@ -22,8 +24,10 @@ function submitHandler() {
       consent: consent.value,
     };
     emits("submitFormHandler", data);
+    isLoading.value = false;
   } else {
     console.log(formValid);
+    isLoading.value = false;
   }
 }
 
@@ -41,7 +45,6 @@ function checkIsPassValid() {
 
 watch([consent, email], ([newConsentValue, newEmailValue]) => {
   if (newConsentValue === true && newEmailValue !== "") {
-
     formValid.valid = true;
   } else {
     formValid.valid = false;
@@ -51,7 +54,7 @@ watch([consent, email], ([newConsentValue, newEmailValue]) => {
 });
 </script>
 <template>
-  <form @submit.prevent="submitHandler">
+  <form @submit.prevent="submitHandler" v-if="!isLoading">
     <BaseInput
       label="E-mail"
       placeholder="jan.kowalski@email.com"
@@ -76,6 +79,7 @@ watch([consent, email], ([newConsentValue, newEmailValue]) => {
       :type="formValid.valid ? 'submit' : 'button'"
     />
   </form>
+  <Loading v-else />
 </template>
 
 <style scoped>

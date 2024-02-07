@@ -9,25 +9,33 @@ generator client {
 }
 
 model User {
-  id           String   @id
-  name         String?
-  postalCode   String?
-  voidvodeship String?
-  birthYear    Int?
-  education    String   @default("Nie chcę powiedzieć")
-  gender       String   @default("Nie chcę powiedzieć")
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
-  votesYes     GovernmentVotes[]   @relation(name: "voteYes")
-  votesNo      GovernmentVotes[]   @relation(name: "voteNo")
-  votesAbstain GovernmentVotes[]   @relation(name: "voteAbstain")
+  id                     String            @id
+  name                   String?
+  postalCode             String?
+  voidvodeship           String?
+  birthYear              Int?
+  education              String            @default("Nie chcę powiedzieć")
+  gender                 String            @default("Nie chcę powiedzieć")
+  createdAt              DateTime          @default(now())
+  updatedAt              DateTime          @updatedAt
+  votesYes               GovernmentVotes[] @relation(name: "voteYes")
+  votesNo                GovernmentVotes[] @relation(name: "voteNo")
+  votesAbstain           GovernmentVotes[] @relation(name: "voteAbstain")
+  referendumVotesYes     Vote[]            @relation(name: "referendumVoteYes")
+  referendumVotesNo      Vote[]            @relation(name: "referendumVoteNo")
+  referendumVotesAbstain Vote[]            @relation(name: "referendumVoteAbstain")
 }
 
 model Vote {
-  id               String   @id
-  // userVotesYes     User[]   @relation(name: "voteYes")
-  // userVotesNo      User[]   @relation(name: "voteNo")
-  // userVotesAbstain User[]   @relation(name: "voteAbstain")
+  id               String   @id @unique @default(cuid())
+  votingNumber     Int      @default(autoincrement())
+  date             String
+  description      String   @default("")
+  title            String   @default("")
+  topic            String   @default("")
+  userVotesYes     User[]   @relation(name: "referendumVoteYes")
+  userVotesNo      User[]   @relation(name: "referendumVoteNo")
+  userVotesAbstain User[]   @relation(name: "referendumVoteAbstain")
   updatedAt        DateTime @updatedAt
 }
 
@@ -48,9 +56,9 @@ model GovernmentVotes {
   totalVoted       Int
   votingNumber     Int
   kind             String
-  userVotesYes     User[]   @relation(name: "voteYes")
-  userVotesNo      User[]   @relation(name: "voteNo")
-  userVotesAbstain User[]   @relation(name: "voteAbstain")
+  userVotesYes     User[] @relation(name: "voteYes")
+  userVotesNo      User[] @relation(name: "voteNo")
+  userVotesAbstain User[] @relation(name: "voteAbstain")
 }
 
 model MPVote {

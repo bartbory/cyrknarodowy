@@ -1,7 +1,9 @@
 // middleware/auth.ts
 export default defineNuxtRouteMiddleware(async (to, from) => {
   const supabase = useSupabaseClient();
-  const user = supabase.auth;
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   // redirect the user to the login page
   if (!user) {
