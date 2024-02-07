@@ -45,4 +45,8 @@ const emits = defineEmits(["close"]);
   max-height: 80vh;
   overflow: scroll;
 }
+
+.card__container::-webkit-scrollbar {
+  display: none;
+}
 </style>

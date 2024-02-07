@@ -172,6 +172,10 @@ watch([activeSitting, activeDate], async ([newSitting, newDate]) => {
   flex-shrink: 1;
 }
 
+.dates__container::-webkit-scrollbar {
+  display: none;
+}
+
 .dates__container:deep(button) {
   font-size: 14px;
   min-width: 48px;

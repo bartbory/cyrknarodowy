@@ -23,12 +23,9 @@ const votingDate = computed(() => {
       <div class="card__data">
         <h3>{{ data.title }}</h3>
         <p v-if="data.topic">{{ data.topic }}</p>
+        <p v-if="data.description">{{ data.description }}</p>
       </div>
       <div class="card__action">
-        <div class="card__action--timer">
-          <BaseIcon :icon="IconTypes.Time" :icon-size="16" />
-          <p class="op--6">12 godz. 37 min.</p>
-        </div>
         <div class="card__action-options" v-if="hasAction">
           <BaseButton
             :hasIcon="true"
