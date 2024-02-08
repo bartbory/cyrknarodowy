@@ -164,7 +164,7 @@ if (user && userVote.voteExist) {
 }
 
 useHead({
-  title: `Cyrk Narodowy - Referendum ${route.params.voteId}`,
+  title: `Cyrk Narodowy - Referendum ${route.params.refId}`,
   meta: [
     { name: "author", content: "Bartosz Borycki" },
     { name: "viewport", content: "width=device-width, initial-scale=1.0" },
@@ -175,12 +175,12 @@ useHead({
 });
 
 useSeoMeta({
-  ogTitle: "Cyrk Narodowy - Referendum",
+  ogTitle: `Cyrk Narodowy - Referendum - ${vote.title}`,
   description:
     "Zostań wirtualnym posłem i bierz udział w głosowaniach! Zobaczmy, czy naród podziela zdanie posłów :)",
   ogDescription:
     "Zostań wirtualnym posłem i bierz udział w głosowaniach! Zobaczmy, czy naród podziela zdanie posłów :)",
-  ogImage: "/ogImage.png",
+  ogImage: `/images/${route.params.refId}.jpg`,
 });
 </script>
 
