@@ -5,7 +5,7 @@ export default defineEventHandler(async (event) => {
   try {
     const refId = event.context.params?.refId;
 
-    const responde = await prisma.vote.findUnique({
+    const response = await prisma.vote.findUnique({
       where: { id: refId },
       include: {
         userVotesAbstain: {
@@ -42,13 +42,13 @@ export default defineEventHandler(async (event) => {
       {
         key: "Dolnośląskie",
         votes: {
-          abstain: responde!.userVotesAbstain.filter((user) => {
+          abstain: response!.userVotesAbstain.filter((user) => {
             if (user.voidvodeship === "dolnośląskie") return user.id;
           }),
-          no: responde!.userVotesNo.filter((user) => {
+          no: response!.userVotesNo.filter((user) => {
             if (user.voidvodeship === "dolnośląskie") return user.id;
           }),
-          yes: responde!.userVotesYes.filter((user) => {
+          yes: response!.userVotesYes.filter((user) => {
             if (user.voidvodeship === "dolnośląskie") return user.id;
           }),
         },
@@ -56,13 +56,13 @@ export default defineEventHandler(async (event) => {
       {
         key: "Kujawsko-pomorskie",
         votes: {
-          abstain: responde!.userVotesAbstain.filter((user) => {
+          abstain: response!.userVotesAbstain.filter((user) => {
             if (user.voidvodeship === "kujawsko-pomorskie") return user;
           }),
-          no: responde!.userVotesNo.filter((user) => {
+          no: response!.userVotesNo.filter((user) => {
             if (user.voidvodeship === "kujawsko-pomorskie") return user;
           }),
-          yes: responde!.userVotesYes.filter((user) => {
+          yes: response!.userVotesYes.filter((user) => {
             if (user.voidvodeship === "kujawsko-pomorskie") return user;
           }),
         },
@@ -70,13 +70,13 @@ export default defineEventHandler(async (event) => {
       {
         key: "Lubelskie",
         votes: {
-          abstain: responde!.userVotesAbstain.filter((user) => {
+          abstain: response!.userVotesAbstain.filter((user) => {
             if (user.voidvodeship === "lubelskie") return user;
           }),
-          no: responde!.userVotesNo.filter((user) => {
+          no: response!.userVotesNo.filter((user) => {
             if (user.voidvodeship === "lubelskie") return user;
           }),
-          yes: responde!.userVotesYes.filter((user) => {
+          yes: response!.userVotesYes.filter((user) => {
             if (user.voidvodeship === "lubelskie") return user;
           }),
         },
@@ -84,13 +84,13 @@ export default defineEventHandler(async (event) => {
       {
         key: "Lubuskie",
         votes: {
-          abstain: responde!.userVotesAbstain.filter((user) => {
+          abstain: response!.userVotesAbstain.filter((user) => {
             if (user.voidvodeship === "lubuskie") return user;
           }),
-          no: responde!.userVotesNo.filter((user) => {
+          no: response!.userVotesNo.filter((user) => {
             if (user.voidvodeship === "lubuskie") return user;
           }),
-          yes: responde!.userVotesYes.filter((user) => {
+          yes: response!.userVotesYes.filter((user) => {
             if (user.voidvodeship === "lubuskie") return user;
           }),
         },
@@ -98,13 +98,13 @@ export default defineEventHandler(async (event) => {
       {
         key: "Łódzkie",
         votes: {
-          abstain: responde!.userVotesAbstain.filter((user) => {
+          abstain: response!.userVotesAbstain.filter((user) => {
             if (user.voidvodeship === "łódzkie") return user;
           }),
-          no: responde!.userVotesNo.filter((user) => {
+          no: response!.userVotesNo.filter((user) => {
             if (user.voidvodeship === "łódzkie") return user;
           }),
-          yes: responde!.userVotesYes.filter((user) => {
+          yes: response!.userVotesYes.filter((user) => {
             if (user.voidvodeship === "łódzkie") return user;
           }),
         },
@@ -112,13 +112,13 @@ export default defineEventHandler(async (event) => {
       {
         key: "Małopolskie",
         votes: {
-          abstain: responde!.userVotesAbstain.filter((user) => {
+          abstain: response!.userVotesAbstain.filter((user) => {
             if (user.voidvodeship === "małopolskie") return user;
           }),
-          no: responde!.userVotesNo.filter((user) => {
+          no: response!.userVotesNo.filter((user) => {
             if (user.voidvodeship === "małopolskie") return user;
           }),
-          yes: responde!.userVotesYes.filter((user) => {
+          yes: response!.userVotesYes.filter((user) => {
             if (user.voidvodeship === "małopolskie") return user;
           }),
         },
@@ -126,13 +126,13 @@ export default defineEventHandler(async (event) => {
       {
         key: "Mazowieckie",
         votes: {
-          abstain: responde!.userVotesAbstain.filter((user) => {
+          abstain: response!.userVotesAbstain.filter((user) => {
             if (user.voidvodeship === "mazowieckie") return user;
           }),
-          no: responde!.userVotesNo.filter((user) => {
+          no: response!.userVotesNo.filter((user) => {
             if (user.voidvodeship === "mazowieckie") return user;
           }),
-          yes: responde!.userVotesYes.filter((user) => {
+          yes: response!.userVotesYes.filter((user) => {
             if (user.voidvodeship === "mazowieckie") return user;
           }),
         },
@@ -140,13 +140,13 @@ export default defineEventHandler(async (event) => {
       {
         key: "Opolskie",
         votes: {
-          abstain: responde!.userVotesAbstain.filter((user) => {
+          abstain: response!.userVotesAbstain.filter((user) => {
             if (user.voidvodeship === "opolskie") return user;
           }),
-          no: responde!.userVotesNo.filter((user) => {
+          no: response!.userVotesNo.filter((user) => {
             if (user.voidvodeship === "opolskie") return user;
           }),
-          yes: responde!.userVotesYes.filter((user) => {
+          yes: response!.userVotesYes.filter((user) => {
             if (user.voidvodeship === "opolskie") return user;
           }),
         },
@@ -154,13 +154,13 @@ export default defineEventHandler(async (event) => {
       {
         key: "Podkarpackie",
         votes: {
-          abstain: responde!.userVotesAbstain.filter((user) => {
+          abstain: response!.userVotesAbstain.filter((user) => {
             if (user.voidvodeship === "podkarpackie") return user;
           }),
-          no: responde!.userVotesNo.filter((user) => {
+          no: response!.userVotesNo.filter((user) => {
             if (user.voidvodeship === "podkarpackie") return user;
           }),
-          yes: responde!.userVotesYes.filter((user) => {
+          yes: response!.userVotesYes.filter((user) => {
             if (user.voidvodeship === "podkarpackie") return user;
           }),
         },
@@ -168,13 +168,13 @@ export default defineEventHandler(async (event) => {
       {
         key: "Podlaskie",
         votes: {
-          abstain: responde!.userVotesAbstain.filter((user) => {
+          abstain: response!.userVotesAbstain.filter((user) => {
             if (user.voidvodeship === "podlaskie") return user;
           }),
-          no: responde!.userVotesNo.filter((user) => {
+          no: response!.userVotesNo.filter((user) => {
             if (user.voidvodeship === "podlaskie") return user;
           }),
-          yes: responde!.userVotesYes.filter((user) => {
+          yes: response!.userVotesYes.filter((user) => {
             if (user.voidvodeship === "podlaskie") return user;
           }),
         },
@@ -182,13 +182,13 @@ export default defineEventHandler(async (event) => {
       {
         key: "Pomorskie",
         votes: {
-          abstain: responde!.userVotesAbstain.filter((user) => {
+          abstain: response!.userVotesAbstain.filter((user) => {
             if (user.voidvodeship === "pomorskie") return user;
           }),
-          no: responde!.userVotesNo.filter((user) => {
+          no: response!.userVotesNo.filter((user) => {
             if (user.voidvodeship === "pomorskie") return user;
           }),
-          yes: responde!.userVotesYes.filter((user) => {
+          yes: response!.userVotesYes.filter((user) => {
             if (user.voidvodeship === "pomorskie") return user;
           }),
         },
@@ -196,13 +196,13 @@ export default defineEventHandler(async (event) => {
       {
         key: "Śląskie",
         votes: {
-          abstain: responde!.userVotesAbstain.filter((user) => {
+          abstain: response!.userVotesAbstain.filter((user) => {
             if (user.voidvodeship === "śląskie") return user;
           }),
-          no: responde!.userVotesNo.filter((user) => {
+          no: response!.userVotesNo.filter((user) => {
             if (user.voidvodeship === "śląskie") return user;
           }),
-          yes: responde!.userVotesYes.filter((user) => {
+          yes: response!.userVotesYes.filter((user) => {
             if (user.voidvodeship === "śląskie") return user;
           }),
         },
@@ -210,13 +210,13 @@ export default defineEventHandler(async (event) => {
       {
         key: "Świętokrzyskie",
         votes: {
-          abstain: responde!.userVotesAbstain.filter((user) => {
+          abstain: response!.userVotesAbstain.filter((user) => {
             if (user.voidvodeship === "świętokrzyskie") return user;
           }),
-          no: responde!.userVotesNo.filter((user) => {
+          no: response!.userVotesNo.filter((user) => {
             if (user.voidvodeship === "świętokrzyskie") return user;
           }),
-          yes: responde!.userVotesYes.filter((user) => {
+          yes: response!.userVotesYes.filter((user) => {
             if (user.voidvodeship === "świętokrzyskie") return user;
           }),
         },
@@ -224,13 +224,13 @@ export default defineEventHandler(async (event) => {
       {
         key: "Warmińsko-mazurskie",
         votes: {
-          abstain: responde!.userVotesAbstain.filter((user) => {
+          abstain: response!.userVotesAbstain.filter((user) => {
             if (user.voidvodeship === "warmińsko-mazurskie") return user;
           }),
-          no: responde!.userVotesNo.filter((user) => {
+          no: response!.userVotesNo.filter((user) => {
             if (user.voidvodeship === "warmińsko-mazurskie") return user;
           }),
-          yes: responde!.userVotesYes.filter((user) => {
+          yes: response!.userVotesYes.filter((user) => {
             if (user.voidvodeship === "warmińsko-mazurskie") return user;
           }),
         },
@@ -238,13 +238,13 @@ export default defineEventHandler(async (event) => {
       {
         key: "Wielkopolskie",
         votes: {
-          abstain: responde!.userVotesAbstain.filter((user) => {
+          abstain: response!.userVotesAbstain.filter((user) => {
             if (user.voidvodeship === "wielkopolskie") return user;
           }),
-          no: responde!.userVotesNo.filter((user) => {
+          no: response!.userVotesNo.filter((user) => {
             if (user.voidvodeship === "wielkopolskie") return user;
           }),
-          yes: responde!.userVotesYes.filter((user) => {
+          yes: response!.userVotesYes.filter((user) => {
             if (user.voidvodeship === "wielkopolskie") return user;
           }),
         },
@@ -252,13 +252,13 @@ export default defineEventHandler(async (event) => {
       {
         key: "Zachodniopomorskie",
         votes: {
-          abstain: responde!.userVotesAbstain.filter((user) => {
+          abstain: response!.userVotesAbstain.filter((user) => {
             if (user.voidvodeship === "zachodniopomorskie") return user;
           }),
-          no: responde!.userVotesNo.filter((user) => {
+          no: response!.userVotesNo.filter((user) => {
             if (user.voidvodeship === "zachodniopomorskie") return user;
           }),
-          yes: responde!.userVotesYes.filter((user) => {
+          yes: response!.userVotesYes.filter((user) => {
             if (user.voidvodeship === "zachodniopomorskie") return user;
           }),
         },
@@ -269,13 +269,13 @@ export default defineEventHandler(async (event) => {
       {
         key: "Kobieta",
         votes: {
-          abstain: responde!.userVotesAbstain.filter((user) => {
+          abstain: response!.userVotesAbstain.filter((user) => {
             if (user.gender === "Kobieta") return user;
           }),
-          no: responde!.userVotesNo.filter((user) => {
+          no: response!.userVotesNo.filter((user) => {
             if (user.gender === "Kobieta") return user;
           }),
-          yes: responde!.userVotesYes.filter((user) => {
+          yes: response!.userVotesYes.filter((user) => {
             if (user.gender === "Kobieta") return user;
           }),
         },
@@ -283,13 +283,13 @@ export default defineEventHandler(async (event) => {
       {
         key: "Mężczyzna",
         votes: {
-          abstain: responde!.userVotesAbstain.filter((user) => {
+          abstain: response!.userVotesAbstain.filter((user) => {
             if (user.gender === "Mężczyzna") return user;
           }),
-          no: responde!.userVotesNo.filter((user) => {
+          no: response!.userVotesNo.filter((user) => {
             if (user.gender === "Mężczyzna") return user;
           }),
-          yes: responde!.userVotesYes.filter((user) => {
+          yes: response!.userVotesYes.filter((user) => {
             if (user.gender === "Mężczyzna") return user;
           }),
         },
@@ -297,13 +297,13 @@ export default defineEventHandler(async (event) => {
       {
         key: "Niebinarna",
         votes: {
-          abstain: responde!.userVotesAbstain.filter((user) => {
+          abstain: response!.userVotesAbstain.filter((user) => {
             if (user.gender === "Niebinarna") return user;
           }),
-          no: responde!.userVotesNo.filter((user) => {
+          no: response!.userVotesNo.filter((user) => {
             if (user.gender === "Niebinarna") return user;
           }),
-          yes: responde!.userVotesYes.filter((user) => {
+          yes: response!.userVotesYes.filter((user) => {
             if (user.gender === "Niebinarna") return user;
           }),
         },
@@ -311,13 +311,13 @@ export default defineEventHandler(async (event) => {
       {
         key: "Nie chcę powiedzieć",
         votes: {
-          abstain: responde!.userVotesAbstain.filter((user) => {
+          abstain: response!.userVotesAbstain.filter((user) => {
             if (user.gender === "Nie chcę powiedzieć") return user;
           }),
-          no: responde!.userVotesNo.filter((user) => {
+          no: response!.userVotesNo.filter((user) => {
             if (user.gender === "Nie chcę powiedzieć") return user;
           }),
-          yes: responde!.userVotesYes.filter((user) => {
+          yes: response!.userVotesYes.filter((user) => {
             if (user.gender === "Nie chcę powiedzieć") return user;
           }),
         },
@@ -328,13 +328,13 @@ export default defineEventHandler(async (event) => {
       {
         key: "Wyższe",
         votes: {
-          abstain: responde!.userVotesAbstain.filter((user) => {
+          abstain: response!.userVotesAbstain.filter((user) => {
             if (user.education == "Wyższe") return user.id;
           }),
-          no: responde!.userVotesNo.filter((user) => {
+          no: response!.userVotesNo.filter((user) => {
             if (user.education == "Wyższe") return user.id;
           }),
-          yes: responde!.userVotesYes.filter((user) => {
+          yes: response!.userVotesYes.filter((user) => {
             if (user.education == "Wyższe") return user.id;
           }),
         },
@@ -342,13 +342,13 @@ export default defineEventHandler(async (event) => {
       {
         key: "Średnie",
         votes: {
-          abstain: responde!.userVotesAbstain.filter((user) => {
+          abstain: response!.userVotesAbstain.filter((user) => {
             if (user.education === "Średnie") return user;
           }),
-          no: responde!.userVotesNo.filter((user) => {
+          no: response!.userVotesNo.filter((user) => {
             if (user.education === "Średnie") return user;
           }),
-          yes: responde!.userVotesYes.filter((user) => {
+          yes: response!.userVotesYes.filter((user) => {
             if (user.education === "Średnie") return user;
           }),
         },
@@ -356,13 +356,13 @@ export default defineEventHandler(async (event) => {
       {
         key: "Zawodowe",
         votes: {
-          abstain: responde!.userVotesAbstain.filter((user) => {
+          abstain: response!.userVotesAbstain.filter((user) => {
             if (user.education === "Zawodowe") return user;
           }),
-          no: responde!.userVotesNo.filter((user) => {
+          no: response!.userVotesNo.filter((user) => {
             if (user.education === "Zawodowe") return user;
           }),
-          yes: responde!.userVotesYes.filter((user) => {
+          yes: response!.userVotesYes.filter((user) => {
             if (user.education === "Zawodowe") return user;
           }),
         },
@@ -370,13 +370,13 @@ export default defineEventHandler(async (event) => {
       {
         key: "Gimnazjalne",
         votes: {
-          abstain: responde!.userVotesAbstain.filter((user) => {
+          abstain: response!.userVotesAbstain.filter((user) => {
             if (user.education === "Gimnazjalne") return user;
           }),
-          no: responde!.userVotesNo.filter((user) => {
+          no: response!.userVotesNo.filter((user) => {
             if (user.education === "Gimnazjalne") return user;
           }),
-          yes: responde!.userVotesYes.filter((user) => {
+          yes: response!.userVotesYes.filter((user) => {
             if (user.education === "Gimnazjalne") return user;
           }),
         },
@@ -384,13 +384,13 @@ export default defineEventHandler(async (event) => {
       {
         key: "Podstawowe ukończone",
         votes: {
-          abstain: responde!.userVotesAbstain.filter((user) => {
+          abstain: response!.userVotesAbstain.filter((user) => {
             if (user.education === "Podstawowe ukończone") return user;
           }),
-          no: responde!.userVotesNo.filter((user) => {
+          no: response!.userVotesNo.filter((user) => {
             if (user.education === "Podstawowe ukończone") return user;
           }),
-          yes: responde!.userVotesYes.filter((user) => {
+          yes: response!.userVotesYes.filter((user) => {
             if (user.education === "Podstawowe ukończone") return user;
           }),
         },
@@ -398,13 +398,13 @@ export default defineEventHandler(async (event) => {
       {
         key: "Podstawowe nieukończone",
         votes: {
-          abstain: responde!.userVotesAbstain.filter((user) => {
+          abstain: response!.userVotesAbstain.filter((user) => {
             if (user.education === "Podstawowe nieukończone") return user;
           }),
-          no: responde!.userVotesNo.filter((user) => {
+          no: response!.userVotesNo.filter((user) => {
             if (user.education === "Podstawowe nieukończone") return user;
           }),
-          yes: responde!.userVotesYes.filter((user) => {
+          yes: response!.userVotesYes.filter((user) => {
             if (user.education === "Podstawowe nieukończone") return user;
           }),
         },
@@ -412,13 +412,13 @@ export default defineEventHandler(async (event) => {
       {
         key: "Nieustalone",
         votes: {
-          abstain: responde!.userVotesAbstain.filter((user) => {
+          abstain: response!.userVotesAbstain.filter((user) => {
             if (user.education === "Nieustalone") return user;
           }),
-          no: responde!.userVotesNo.filter((user) => {
+          no: response!.userVotesNo.filter((user) => {
             if (user.education === "Nieustalone") return user;
           }),
-          yes: responde!.userVotesYes.filter((user) => {
+          yes: response!.userVotesYes.filter((user) => {
             if (user.education === "Nieustalone") return user;
           }),
         },
@@ -426,13 +426,13 @@ export default defineEventHandler(async (event) => {
       {
         key: "Nie chcę powiedzieć",
         votes: {
-          abstain: responde!.userVotesAbstain.filter((user) => {
+          abstain: response!.userVotesAbstain.filter((user) => {
             if (user.education === "Nie chcę powiedzieć") return user;
           }),
-          no: responde!.userVotesNo.filter((user) => {
+          no: response!.userVotesNo.filter((user) => {
             if (user.education === "Nie chcę powiedzieć") return user;
           }),
-          yes: responde!.userVotesYes.filter((user) => {
+          yes: response!.userVotesYes.filter((user) => {
             if (user.education === "Nie chcę powiedzieć") return user;
           }),
         },
@@ -444,15 +444,15 @@ export default defineEventHandler(async (event) => {
       {
         key: "poniej 18",
         votes: {
-          abstain: responde!.userVotesAbstain.filter((user) => {
+          abstain: response!.userVotesAbstain.filter((user) => {
             if (user.birthYear && user.birthYear > actualYear - 18)
               return user.id;
           }),
-          no: responde!.userVotesNo.filter((user) => {
+          no: response!.userVotesNo.filter((user) => {
             if (user.birthYear && user.birthYear > actualYear - 18)
               return user.id;
           }),
-          yes: responde!.userVotesYes.filter((user) => {
+          yes: response!.userVotesYes.filter((user) => {
             if (user.birthYear && user.birthYear > actualYear - 18)
               return user.id;
           }),
@@ -461,7 +461,7 @@ export default defineEventHandler(async (event) => {
       {
         key: "18 - 22",
         votes: {
-          abstain: responde!.userVotesAbstain.filter((user) => {
+          abstain: response!.userVotesAbstain.filter((user) => {
             if (
               user.birthYear &&
               user.birthYear <= actualYear - 18 &&
@@ -469,7 +469,7 @@ export default defineEventHandler(async (event) => {
             )
               return user.id;
           }),
-          no: responde!.userVotesNo.filter((user) => {
+          no: response!.userVotesNo.filter((user) => {
             if (
               user.birthYear &&
               user.birthYear <= actualYear - 18 &&
@@ -477,7 +477,7 @@ export default defineEventHandler(async (event) => {
             )
               return user.id;
           }),
-          yes: responde!.userVotesYes.filter((user) => {
+          yes: response!.userVotesYes.filter((user) => {
             if (
               user.birthYear &&
               user.birthYear <= actualYear - 18 &&
@@ -490,7 +490,7 @@ export default defineEventHandler(async (event) => {
       {
         key: "23 - 30",
         votes: {
-          abstain: responde!.userVotesAbstain.filter((user) => {
+          abstain: response!.userVotesAbstain.filter((user) => {
             if (
               user.birthYear &&
               user.birthYear <= actualYear - 23 &&
@@ -498,7 +498,7 @@ export default defineEventHandler(async (event) => {
             )
               return user.id;
           }),
-          no: responde!.userVotesNo.filter((user) => {
+          no: response!.userVotesNo.filter((user) => {
             if (
               user.birthYear &&
               user.birthYear <= actualYear - 23 &&
@@ -506,7 +506,7 @@ export default defineEventHandler(async (event) => {
             )
               return user.id;
           }),
-          yes: responde!.userVotesYes.filter((user) => {
+          yes: response!.userVotesYes.filter((user) => {
             if (
               user.birthYear &&
               user.birthYear <= actualYear - 23 &&
@@ -519,7 +519,7 @@ export default defineEventHandler(async (event) => {
       {
         key: "31 - 40",
         votes: {
-          abstain: responde!.userVotesAbstain.filter((user) => {
+          abstain: response!.userVotesAbstain.filter((user) => {
             if (
               user.birthYear &&
               user.birthYear <= actualYear - 31 &&
@@ -527,7 +527,7 @@ export default defineEventHandler(async (event) => {
             )
               return user.id;
           }),
-          no: responde!.userVotesNo.filter((user) => {
+          no: response!.userVotesNo.filter((user) => {
             if (
               user.birthYear &&
               user.birthYear <= actualYear - 31 &&
@@ -535,7 +535,7 @@ export default defineEventHandler(async (event) => {
             )
               return user.id;
           }),
-          yes: responde!.userVotesYes.filter((user) => {
+          yes: response!.userVotesYes.filter((user) => {
             if (
               user.birthYear &&
               user.birthYear <= actualYear - 31 &&
@@ -548,7 +548,7 @@ export default defineEventHandler(async (event) => {
       {
         key: "41 - 50",
         votes: {
-          abstain: responde!.userVotesAbstain.filter((user) => {
+          abstain: response!.userVotesAbstain.filter((user) => {
             if (
               user.birthYear &&
               user.birthYear <= actualYear - 41 &&
@@ -556,7 +556,7 @@ export default defineEventHandler(async (event) => {
             )
               return user.id;
           }),
-          no: responde!.userVotesNo.filter((user) => {
+          no: response!.userVotesNo.filter((user) => {
             if (
               user.birthYear &&
               user.birthYear <= actualYear - 41 &&
@@ -564,7 +564,7 @@ export default defineEventHandler(async (event) => {
             )
               return user.id;
           }),
-          yes: responde!.userVotesYes.filter((user) => {
+          yes: response!.userVotesYes.filter((user) => {
             if (
               user.birthYear &&
               user.birthYear <= actualYear - 41 &&
@@ -577,7 +577,7 @@ export default defineEventHandler(async (event) => {
       {
         key: "51 - 67",
         votes: {
-          abstain: responde!.userVotesAbstain.filter((user) => {
+          abstain: response!.userVotesAbstain.filter((user) => {
             if (
               user.birthYear &&
               user.birthYear <= actualYear - 51 &&
@@ -585,7 +585,7 @@ export default defineEventHandler(async (event) => {
             )
               return user.id;
           }),
-          no: responde!.userVotesNo.filter((user) => {
+          no: response!.userVotesNo.filter((user) => {
             if (
               user.birthYear &&
               user.birthYear <= actualYear - 51 &&
@@ -593,7 +593,7 @@ export default defineEventHandler(async (event) => {
             )
               return user.id;
           }),
-          yes: responde!.userVotesYes.filter((user) => {
+          yes: response!.userVotesYes.filter((user) => {
             if (
               user.birthYear &&
               user.birthYear <= actualYear - 51 &&
@@ -606,15 +606,15 @@ export default defineEventHandler(async (event) => {
       {
         key: "67+",
         votes: {
-          abstain: responde!.userVotesAbstain.filter((user) => {
+          abstain: response!.userVotesAbstain.filter((user) => {
             if (user.birthYear && user.birthYear < actualYear - 67)
               return user.id;
           }),
-          no: responde!.userVotesNo.filter((user) => {
+          no: response!.userVotesNo.filter((user) => {
             if (user.birthYear && user.birthYear < actualYear - 67)
               return user.id;
           }),
-          yes: responde!.userVotesYes.filter((user) => {
+          yes: response!.userVotesYes.filter((user) => {
             if (user.birthYear && user.birthYear < actualYear - 67)
               return user.id;
           }),
@@ -626,9 +626,9 @@ export default defineEventHandler(async (event) => {
       {
         key: "Głos narodu",
         votes: {
-          abstain: responde!.userVotesAbstain,
-          no: responde!.userVotesNo,
-          yes: responde!.userVotesYes,
+          abstain: response!.userVotesAbstain,
+          no: response!.userVotesNo,
+          yes: response!.userVotesYes,
         },
       },
     ];

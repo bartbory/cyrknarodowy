@@ -8,9 +8,33 @@ export default defineEventHandler(async (event) => {
     const result: ReferendumVoteType | null = await prisma.vote.findUnique({
       where: { id: refId },
       include: {
-        userVotesAbstain: true,
-        userVotesNo: true,
-        userVotesYes: true,
+        userVotesAbstain: {
+          select: {
+            id: true,
+            voidvodeship: true,
+            education: true,
+            gender: true,
+            birthYear: true,
+          },
+        },
+        userVotesNo: {
+          select: {
+            id: true,
+            voidvodeship: true,
+            education: true,
+            gender: true,
+            birthYear: true,
+          },
+        },
+        userVotesYes: {
+          select: {
+            id: true,
+            voidvodeship: true,
+            education: true,
+            gender: true,
+            birthYear: true,
+          },
+        },
       },
     });
 

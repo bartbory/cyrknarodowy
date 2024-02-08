@@ -15,7 +15,7 @@ export default defineEventHandler(async (event) => {
     voidvodeship: "",
   });
   try {
-    const responde = await prisma.user.findUnique({
+    const response = await prisma.user.findUnique({
       where: { id: userId },
       select: {
         id: true,
@@ -28,8 +28,8 @@ export default defineEventHandler(async (event) => {
       },
     });
 
-    if (responde) {
-      userData = responde;
+    if (response) {
+      userData = response;
       return { userData };
     }
     return null;

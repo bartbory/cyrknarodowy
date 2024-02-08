@@ -1,19 +1,12 @@
 <script setup lang="ts">
 import BaseButton from "../buttons/BaseButton.vue";
 import BaseCard from "../ui/BaseCard.vue";
-import BaseIcon from "../ui/BaseIcon.vue";
-import type { GovernmentVoteType, ReferendumVoteType } from "~/types/types";
-import { IconTypes } from "~/types/types";
-import dateFormater from "~/helpers/dateFormater";
+import type { ReferendumVoteType } from "~/types/types";
 
 const props = defineProps({
   data: { type: Object as PropType<ReferendumVoteType>, required: true },
   hasAction: { type: Boolean, default: true },
   hasVoted: { type: Boolean, default: false },
-});
-const votingDate = computed(() => {
-  const parseDate = dateFormater(props.data.date);
-  return parseDate;
 });
 </script>
 

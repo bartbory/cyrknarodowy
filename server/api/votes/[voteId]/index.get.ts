@@ -7,9 +7,33 @@ export default defineEventHandler(async (event) => {
     const result = await prisma.governmentVotes.findUnique({
       where: { id: voteId },
       include: {
-        userVotesAbstain: true,
-        userVotesNo: true,
-        userVotesYes: true,
+        userVotesAbstain: {
+          select: {
+            id: true,
+            voidvodeship: true,
+            gender: true,
+            education: true,
+            birthYear: true,
+          },
+        },
+        userVotesNo: {
+          select: {
+            id: true,
+            voidvodeship: true,
+            gender: true,
+            education: true,
+            birthYear: true,
+          },
+        },
+        userVotesYes: {
+          select: {
+            id: true,
+            voidvodeship: true,
+            gender: true,
+            education: true,
+            birthYear: true,
+          },
+        },
       },
     });
 

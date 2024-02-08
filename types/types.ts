@@ -50,8 +50,8 @@ export interface UserRegister {
 
 export interface UserData {
   id: string;
-  name: string | null;
-  postalCode: string | null;
+  // name: string | null;
+  // postalCode: string | null;
   voidvodeship: string | null;
   birthYear: number | null;
   education: string;
