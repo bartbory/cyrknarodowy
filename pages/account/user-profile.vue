@@ -120,18 +120,23 @@ function goBack() {
 }
 </script>
 <template>
-  <BaseCard>
-    <BaseButton text="Wróć" :hasIcon="false" @click="goBack" type="button" />
-    <h1>
-      Cześć <span v-if="userData.name">{{ userData.name }}</span
-      >! Uzupełnij swoje dane
-    </h1>
-    <p>
-      Wszystkie pola są dobrowolne. Dzięki ich wypełnieniu pozwolisz nam zbierać
-      bardziej rzetelne statystyki. Nie przekazujemy nigdzie Twoich danych. W
-      każdej chwili możesz je usunąć.
-    </p>
-    <form @submit.prevent="subimtHandler" v-if="!isLoading">
+  <h1>
+    Cześć <span v-if="userData.name">{{ userData.name }}</span
+    >! Uzupełnij swoje dane
+  </h1>
+  <BaseButton
+    text="Powrót do listy posiedzeń"
+    :hasIcon="false"
+    @click="goBack"
+    type="button"
+  />
+  <BaseCard v-if="!isLoading">
+    <form @submit.prevent="subimtHandler">
+      <p>
+        Wszystkie pola są dobrowolne. Dzięki ich wypełnieniu pozwolisz nam
+        zbierać bardziej rzetelne statystyki. Nie przekazujemy nigdzie Twoich
+        danych. W każdej chwili możesz je usunąć.
+      </p>
       <BaseInput
         label="Imię"
         placeholder="Ania"
@@ -172,17 +177,17 @@ function goBack() {
         type="submit"
       />
     </form>
-    <UiLoading v-else :text="loadingMessage" />
-
-    <hr />
-
-    <BaseButton
-      button-type="destroy"
-      text="Wyloguj"
-      :has-icon="false"
-      @click="logOutHandler()"
-    />
   </BaseCard>
+  <UiLoading v-else :text="loadingMessage" />
+
+  <hr />
+
+  <BaseButton
+    button-type="destroy"
+    text="Wyloguj"
+    :has-icon="false"
+    @click="logOutHandler()"
+  />
 </template>
 
 <style scoped>

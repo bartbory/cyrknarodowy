@@ -195,22 +195,24 @@ useSeoMeta({
 <template>
   <div class="list__container">
     <h1>Oddaj swój głos</h1>
-    <BaseButton text="Wróć" :hasIcon="false" @click="goBack" />
     <UiLoading v-if="isLoading" :text="loadingMessage" />
-    <VoteItem :hasAction="false" :data="vote" v-if="!isLoading && vote" />
-    <InfoCard v-if="!isLogged" />
-    <VotingCard
-      v-if="!isLoading && user && vote && !userVote.voteExist"
-      @vote-no="saveNo"
-      @vote-yes="saveYes"
-      @vote-hold="saveAbstain"
-    />
-    <BaseButton
-      v-if="userVote.voteExist && !isLoading"
-      :text="userVote.voteMsg"
-      :has-icon="false"
-      button-type="disable"
-    />
+    <section v-else>
+      <VoteItem :hasAction="false" :data="vote" v-if="vote" />
+      <BaseButton text="Wróć" :hasIcon="false" @click="goBack" />
+      <InfoCard v-if="!isLogged" />
+      <VotingCard
+        v-if="user && vote && !userVote.voteExist"
+        @vote-no="saveNo"
+        @vote-yes="saveYes"
+        @vote-hold="saveAbstain"
+      />
+      <BaseButton
+        v-if="userVote.voteExist"
+        :text="userVote.voteMsg"
+        :has-icon="false"
+        button-type="disable"
+      />
+    </section>
     <section v-if="!isLoading">
       <CardsStatisticMainCard
         :data="vote"

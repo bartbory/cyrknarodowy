@@ -13,7 +13,13 @@ export default defineNuxtConfig({
     redirectOptions: {
       login: "/account/login",
       callback: "/confirm",
-      exclude: ["/", "/votings/*", "/account/register"],
+      exclude: [
+        "/",
+        "/votings/*",
+        "/referendum/*",
+        "/referendum",
+        "/account/register",
+      ],
       cookieRedirect: false,
     },
   },
