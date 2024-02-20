@@ -1,5 +1,9 @@
 <script setup lang="ts">
-import type { StatisticsData, ReferendumVoteType } from "~/types/types";
+import type {
+  StatisticsData,
+  ReferendumVoteType,
+  GovernmentVoteType,
+} from "~/types/types";
 import BaseButton from "~/components/buttons/BaseButton.vue";
 import VotingCard from "~/components/cards/VotingCard.vue";
 import InfoCard from "~/components/cards/InfoCard.vue";
@@ -50,17 +54,19 @@ let userVote = reactive({
 
 try {
   isLoading.value = true;
-  const { data } = await useFetch(
-    `/api/votes/referendum/${route.params.refId}`,
-    { method: "get" }
-  );
+  // console.log("zaczynam pobieranie");
+  const { data } = await useFetch(`/api/referendum/${route.params.refId}`, {
+    method: "GET",
+  });
   if (data.value && data.value.result) {
     vote = data.value.result;
     if (user && vote) {
       if (checkForVotes(vote.userVotesAbstain, user.id)) {
+        userVote.voteExist = true;
         userVote.vote = "abstain";
         userVote.voteMsg = "Twój głos: Wstrzymuję się";
       } else if (checkForVotes(vote.userVotesNo, user.id)) {
+        userVote.voteExist = true;
         userVote.vote = "no";
         userVote.voteMsg = "Twój głos: Przeciw";
       } else if (checkForVotes(vote.userVotesYes, user.id)) {
@@ -68,8 +74,10 @@ try {
         userVote.vote = "yes";
         userVote.voteMsg = "Twój głos: Za";
       }
-    } else {
       isLoading.value = false;
+    } else {
+      // isLoading.value = false;
+      console.log("error");
     }
   }
 } catch (error) {
@@ -78,7 +86,7 @@ try {
 
 async function userVoteHandler(refId: string, decision: string) {
   isLoading.value = true;
-  await useFetch(`/api/votes/referendum/${refId}`, {
+  await useFetch(`/api/referendum/${refId}`, {
     method: "post",
     body: { user: user!.id, vote: decision },
   });
@@ -128,43 +136,38 @@ async function saveAbstain() {
 }
 
 async function getStats(refId: string) {
-  isLoading.value = true;
   try {
-    const { data } = await useFetch(`/api/votes/referendum/${refId}/stats`);
-    if (data.value) {
-      genderVotes.value = data.value.data.gender;
-      educationVotes.value = data.value.data.education;
-      voidvodeshipVotes.value = data.value.data.voidvodeship;
-      ageVotes.value = data.value.data.age;
-      usersVotes.value = data.value.data.votes;
+    isLoading.value = true;
+    const { data } = await useFetch(`/api/referendum/${refId}/stats`);
+    if (data.value?.data) {
+      genderVotes.value = data.value?.data.gender;
+      educationVotes.value = data.value?.data.education;
+      voidvodeshipVotes.value = data.value?.data.voidvodeship;
+      ageVotes.value = data.value?.data.age;
+      usersVotes.value = data.value?.data.votes;
       isLoading.value = false;
     }
   } catch (error) {
     console.log(error);
+    isLoading.value = false;
   }
 }
 
 if (user && userVote.voteExist) {
-  try {
-    isLoading.value = true;
-    const { data } = await useFetch(
-      `/api/votes/referendum/${route.params.refId}/stats`
-    );
-    if (data.value) {
-      genderVotes.value = data.value.data.gender;
-      educationVotes.value = data.value.data.education;
-      voidvodeshipVotes.value = data.value.data.voidvodeship;
-      ageVotes.value = data.value.data.age;
-      usersVotes.value = data.value.data.votes;
-      isLoading.value = false;
-    }
-  } catch (error) {
-    console.log(error);
-  }
+  getStats(vote.id);
 }
 
+const seoData = reactive({
+  ogTitle: `Cyrk Narodowy - Referendum - ${vote.title}`,
+  description:
+    "Zostań wirtualnym posłem i bierz udział w głosowaniach! Zobaczmy, czy naród podziela zdanie posłów :)",
+  ogDescription:
+    "Zostań wirtualnym posłem i bierz udział w głosowaniach! Zobaczmy, czy naród podziela zdanie posłów :)",
+  ogImage: `/images/${route.params.refId}.jpg`,
+});
+
 useHead({
-  title: `Cyrk Narodowy - Referendum`,
+  title: `Cyrk Narodowy - Referendum - ${vote.title}`,
   meta: [
     { name: "author", content: "Bartosz Borycki" },
     { name: "viewport", content: "width=device-width, initial-scale=1.0" },
@@ -175,12 +178,7 @@ useHead({
 });
 
 useSeoMeta({
-  ogTitle: `Cyrk Narodowy - Referendum`,
-  description:
-    "Zostań wirtualnym posłem i bierz udział w głosowaniach! Zobaczmy, czy naród podziela zdanie posłów :)",
-  ogDescription:
-    "Zostań wirtualnym posłem i bierz udział w głosowaniach! Zobaczmy, czy naród podziela zdanie posłów :)",
-  ogImage: `images/2.jpg`,
+  ...seoData,
 });
 </script>
 

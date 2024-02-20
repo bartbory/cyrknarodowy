@@ -622,13 +622,19 @@ export default defineEventHandler(async (event) => {
       },
     ];
 
-    const usersVotes: StatisticsData[] = [
+    const userVotes: StatisticsData[] = [
       {
-        key: "Głos narodu",
+        key: "Głosowanie",
         votes: {
-          abstain: response!.userVotesAbstain,
-          no: response!.userVotesNo,
-          yes: response!.userVotesYes,
+          abstain: response!.userVotesAbstain.filter((user) => {
+            return user.id;
+          }),
+          no: response!.userVotesNo.filter((user) => {
+            return user.id;
+          }),
+          yes: response!.userVotesYes.filter((user) => {
+            return user.id;
+          }),
         },
       },
     ];
@@ -639,7 +645,7 @@ export default defineEventHandler(async (event) => {
         gender: genderVotes,
         education: educationVotes,
         age: ageVotes,
-        votes: usersVotes,
+        votes: userVotes,
       },
     };
   } catch (error: any) {

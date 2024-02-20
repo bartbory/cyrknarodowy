@@ -35,7 +35,6 @@ if (user) {
   isLogged.value = true;
 }
 
-const route = useRoute();
 const router = useRouter();
 
 // Refs
@@ -45,7 +44,7 @@ let referendumArray: Ref<ReferendumVoteType[]> = ref([]);
 // Fetch votes data
 async function fetchReferendum() {
   try {
-    const { data } = await useFetch(`/api/votes/referendum`);
+    const { data } = await useFetch(`/api/referendum`);
     if (data.value) {
       //@ts-ignore
       referendumArray.value = data.value.data;
@@ -60,37 +59,37 @@ await fetchReferendum();
 </script>
 
 <template>
-    <div class="list__container">
-      <h2>Posiedzenie</h2>
-      <div class="selector__container">
-        <div class="dates__container">
-          <ButtonsBaseButton
-            v-for="(sitting, i) in sittingDates.posiedzenia"
-            :key="sitting.dates[i]"
-            :text="sitting.sitting.toString()"
-            :has-icon="false"
-button-type='outline'
-            @click="
-              () => {
-                router.push(`/?sitting=${sitting.sitting}`);
-              }
-            "
-          />
-        </div>
-        <div>
-          <ButtonsBaseButton
-            text="Referenda"
-            :has-icon="false"
-            button-type="default"
-            @click="
-              () => {
-                router.push(`/votings/referendum`);
-              }
-            "
-          />
-        </div>
+  <div class="list__container">
+    <h2>Posiedzenie</h2>
+    <div class="selector__container">
+      <div class="dates__container">
+        <ButtonsBaseButton
+          v-for="(sitting, i) in sittingDates.posiedzenia"
+          :key="sitting.dates[i]"
+          :text="sitting.sitting.toString()"
+          :has-icon="false"
+          button-type="outline"
+          @click="
+            () => {
+              router.push(`/?sitting=${sitting.sitting}`);
+            }
+          "
+        />
+      </div>
+      <div>
+        <ButtonsBaseButton
+          text="Referenda"
+          :has-icon="false"
+          button-type="default"
+          @click="
+            () => {
+              router.push(`/referendum`);
+            }
+          "
+        />
       </div>
     </div>
+  </div>
   <div class="list__container">
     <h1>Lista referendów</h1>
 

@@ -33,7 +33,7 @@ function goToVote(voteId: string) {
   if (props.display === "vote") {
     router.push(`/votings/${voteId}`);
   } else {
-    router.push(`/votings/referendum/${voteId}`);
+    router.push(`/referendum/${voteId}`);
   }
 }
 

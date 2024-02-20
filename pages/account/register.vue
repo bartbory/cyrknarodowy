@@ -35,18 +35,33 @@ let formValid = reactive({
 
 const passRegExp = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/;
 
-function checkIsPassValid() {
-  if (!passRegExp.test(password.value)) {
+function checkIsPassValid(testValue: string) {
+  if (!passRegExp.test(testValue)) {
     formValid.msg =
       "Hasło powinno zawierać przynajmniej 6 znaków, jedną cyfrę oraz znak specjalny.";
     formValid.valid = false;
+    return false;
+  } else {
+    return true;
+  }
+}
+
+function checkIsConsentApproved(testValue: Boolean) {
+  if (!testValue) {
+    formValid.msg =
+      "Żeby się zarejestrować wymagana jest poniższa zgoda. Twoje dane są bezpieczne i służą tylko do zbierania statystyk. Nie martw się ☺️";
+    formValid.valid = false;
+    return false;
+  } else {
+    return true;
   }
 }
 
 const signInWithPass = async () => {
   formValid.msg = "";
   formValid.valid = true;
-  checkIsPassValid();
+  checkIsPassValid(password.value);
+  checkIsConsentApproved(consent.value);
   if (formValid.valid) {
     const { data, error } = await supabase.auth.signUp({
       email: email.value,
@@ -82,6 +97,21 @@ const signInWithPass = async () => {
 function goToLogin() {
   navigateTo("/account/login");
 }
+
+watch([consent, password], ([newConsentValue, newPassValue]) => {
+  if (newConsentValue === true && passRegExp.test(newPassValue)) {
+    formValid.valid = true;
+    formValid.msg = "";
+  } else if (newConsentValue === false) {
+    formValid.valid = false;
+    formValid.msg =
+      "Wymagane jest zaznaczenie zgody. Sprawdź też poprawność wpisanych danych";
+  } else if (!passRegExp.test(newPassValue)) {
+    formValid.valid = false;
+    formValid.msg =
+      "Hasło powinno zawierać przynajmniej 6 znaków, jedną cyfrę oraz znak specjalny.";
+  }
+});
 </script>
 <template>
   <BaseCard>

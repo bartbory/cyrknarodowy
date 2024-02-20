@@ -22,22 +22,22 @@ export default defineEventHandler(async (event) => {
     );
     votesDataRef = votesData;
 
-    const votesToDb: GovernmentVoteType[] = votesDataRef.map((vote) =>
+    const votesToDb = votesDataRef.map((vote) =>
       vote.topic
         ? {
             ...vote,
             id: createVoteId(vote),
-            userVotesYes: [],
-            userVotesNo: [],
-            userVotesAbstain: [],
+            // userVotesYes: [],
+            // userVotesNo: [],
+            // userVotesAbstain: [],
           }
         : {
             ...vote,
             id: createVoteId(vote),
             topic: "",
-            userVotesYes: [],
-            userVotesNo: [],
-            userVotesAbstain: [],
+            // userVotesYes: [],
+            // userVotesNo: [],
+            // userVotesAbstain: [],
           }
     );
 
@@ -52,11 +52,8 @@ export default defineEventHandler(async (event) => {
     } catch (error) {
       console.log("Error in adding votes", error);
     }
-
-    // return { data: votesToDb };
-  } catch (error: any) {
-    //handle error here
-    // console.log("Error:", error);
+  } catch (error) {
+    console.log("Error:", error);
   }
 
   try {

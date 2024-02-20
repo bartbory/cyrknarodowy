@@ -1,7 +1,4 @@
-import { GovernmentVotes, PrismaClient } from "@prisma/client";
-import { reactive, ref } from "vue";
-import { createVoteId } from "~/helpers/createVoteId";
-import { GovernmentVoteType } from "~/types/types";
+import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 

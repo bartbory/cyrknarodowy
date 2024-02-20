@@ -4,16 +4,15 @@ import BaseCard from "../ui/BaseCard.vue";
 import { IconTypes } from "~/types/types";
 
 function goToRegister() {
-  navigateTo("/account/login");
+  navigateTo("/account/register");
 }
 </script>
 
 <template>
   <BaseCard :is-default="false">
     <p>
-      Chcesz zagłosować i poznać rozkład głosów na województwa, wiek czy
-      wykształcenie? Potrzebujesz założyć konto i uzupełnić swoje dane. Tylko
-      dzięki temu możemy wyświetlać takie statystyki.
+      Załóż konto i głosuj. Weź udział w zabawie rejestrując się w naszym
+      systemie.
     </p>
     <BaseButton
       button-type="default"

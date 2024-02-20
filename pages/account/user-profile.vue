@@ -23,6 +23,7 @@ const educationsArray = [
   Education.PodstawoweUkonczone,
   Education.PodstawoweNieukonczone,
   Education.Nieustalone,
+  Education.NA,
 ];
 const genderArray = [Gender.Female, Gender.Male, Gender.NonBinary, Gender.NA];
 
@@ -31,6 +32,8 @@ let formValid = reactive({
   valid: true,
 });
 const isLoading = ref(true);
+let loadingMessage = ref("Wczytuje dane");
+
 let userData = reactive({
   id: user ? user.id : "",
   name: "",
@@ -67,6 +70,7 @@ async function subimtHandler() {
     {
       if (formValid.valid) {
         isLoading.value = true;
+        loadingMessage.value = "Zapisuje dane";
         const { data: responseData, error } = await useFetch(
           `/api/users/create`,
           {
@@ -90,6 +94,7 @@ async function subimtHandler() {
 if (user) {
   try {
     isLoading.value = true;
+    loadingMessage.value = "Wczytuję...";
     const { data } = await useFetch(`/api/users/${user.id}`, { method: "get" });
     if (data.value) {
       //@ts-ignore
@@ -107,9 +112,16 @@ function logOutHandler() {
   supabase.auth.signOut();
   navigateTo("/");
 }
+
+function goBack() {
+  isLoading.value = true;
+  loadingMessage.value = "Wczytuję...";
+  navigateTo("/");
+}
 </script>
 <template>
   <BaseCard>
+    <BaseButton text="Wróć" :hasIcon="false" @click="goBack" type="button" />
     <h1>
       Cześć <span v-if="userData.name">{{ userData.name }}</span
       >! Uzupełnij swoje dane
@@ -160,7 +172,7 @@ function logOutHandler() {
         type="submit"
       />
     </form>
-    <UiLoading v-else text="Zapisuje dane" />
+    <UiLoading v-else :text="loadingMessage" />
 
     <hr />
 

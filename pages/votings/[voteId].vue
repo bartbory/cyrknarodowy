@@ -60,8 +60,11 @@ let userVote = reactive({
 
 try {
   isLoading.value = true;
-  const { data } = await useFetch(`/api/votes/${route.params.voteId}`);
-  if (data.value && data.value.result) {
+  const { data } = await useFetch(`/api/votes/${route.params.voteId}`, {
+    method: "GET",
+  });
+  if (data.value) {
+    //@ts-ignore
     vote = data.value.result;
     if (user && vote) {
       if (checkForVotes(vote.userVotesAbstain, user.id)) {

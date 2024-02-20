@@ -122,7 +122,7 @@ watch([activeSitting, activeDate], async ([newSitting, newDate]) => {
             button-type="outline"
             @click="
               () => {
-                router.push(`/votings/referendum`);
+                router.push(`/referendum`);
               }
             "
           />
