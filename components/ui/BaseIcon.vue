@@ -53,11 +53,43 @@ const iconRender = computed(() => {
       break;
   }
 });
+
+const labelRender = computed(() => {
+  switch (props.icon) {
+    case IconTypes.Eye:
+      return "Zobacz";
+      break;
+    case IconTypes.Yes || IconTypes.YesFont:
+      return "Głos na tak";
+      break;
+    case IconTypes.No || IconTypes.NoFont:
+      return "Głos na nie";
+      break;
+    case IconTypes.Abstain || IconTypes.AbstainFont:
+      return "Wstrzymanie się od głosu";
+      break;
+    case IconTypes.Time:
+      return "Czas";
+      break;
+    case IconTypes.Info:
+      return "Informacja";
+      break;
+    case IconTypes.Down:
+      return "W dół";
+      break;
+    case IconTypes.User:
+      return "Uzytkownik";
+      break;
+
+    default:
+      break;
+  }
+});
 </script>
 
 <template>
   <div>
-    <img :src="iconRender" :style="size" />
+    <img :src="iconRender" :style="size" :aria-label="labelRender" />
   </div>
 </template>
 

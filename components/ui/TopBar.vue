@@ -19,6 +19,7 @@ function infoModalHandler() {
       :icon="IconTypes.Info"
       text=""
       @click="infoModalHandler()"
+      aria-label="Informacje"
     />
     <img src="/logo.png" @click="navigateTo('/')" />
     <BaseButton
@@ -27,6 +28,7 @@ function infoModalHandler() {
       text=""
       button-type="default"
       @click="userProfileHandler()"
+      aria-label="Profil użytkownika"
     />
   </div>
 
