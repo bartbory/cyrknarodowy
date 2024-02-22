@@ -6,6 +6,7 @@ const prisma = new PrismaClient();
 export default defineEventHandler(async (event) => {
   const body = await readBody(event);
   let voidvodeship = ref("");
+  console.log(body);
   try {
     const response = await fetch(
       `http://kodpocztowy.intami.pl/api/${body.userData.postalCode}`

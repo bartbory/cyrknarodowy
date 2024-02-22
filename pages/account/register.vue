@@ -2,6 +2,7 @@
 import BaseButton from "~/components/buttons/BaseButton.vue";
 import BaseInput from "~/components/utils/BaseInput.vue";
 import BaseCard from "~/components/ui/BaseCard.vue";
+import { Education, Gender } from "~/types/types";
 
 const supabase = useSupabaseClient();
 
@@ -74,6 +75,16 @@ const signInWithPass = async () => {
       },
     });
     if (data) {
+      const { error } = await useFetch("/api/users/create", {
+        method: "POST",
+        body: {
+          userData: {
+            id: data.user?.id,
+            education: Education.NA,
+            gender: Gender.NA,
+          },
+        },
+      });
       navigateTo("/confirm");
     }
     if (error) {
