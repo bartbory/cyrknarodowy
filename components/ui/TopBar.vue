@@ -14,22 +14,24 @@ function infoModalHandler() {
 </script>
 <template>
   <div class="topbar__container">
-    <BaseButton
-      :has-icon="true"
-      :icon="IconTypes.Info"
-      text=""
-      @click="infoModalHandler()"
-      aria-label="Informacje"
-    />
-    <img src="/logo.png" @click="navigateTo('/')" />
-    <BaseButton
-      :has-icon="true"
-      :icon="IconTypes.User"
-      text=""
-      button-type="default"
-      @click="userProfileHandler()"
-      aria-label="Profil użytkownika"
-    />
+    <div class="wrapper">
+      <BaseButton
+        :has-icon="true"
+        :icon="IconTypes.Info"
+        text=""
+        @click="infoModalHandler()"
+        aria-label="Informacje"
+      />
+      <img src="/logo.png" @click="navigateTo('/')" />
+      <BaseButton
+        :has-icon="true"
+        :icon="IconTypes.User"
+        text=""
+        button-type="default"
+        @click="userProfileHandler()"
+        aria-label="Profil użytkownika"
+      />
+    </div>
   </div>
 
   <ModalInfo
@@ -52,6 +54,16 @@ function infoModalHandler() {
   box-shadow: 0 8px 24px rgba(var(--black), 0.25);
   z-index: 10;
   position: fixed;
+}
+
+.wrapper {
+  display: flex;
+  max-width: 1180px;
+  width: 100%;
+  height: 56px;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 auto;
 }
 .topbar__button {
   width: 40px;

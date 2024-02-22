@@ -120,74 +120,78 @@ function goBack() {
 }
 </script>
 <template>
-  <h1>
-    Cześć <span v-if="userData.name">{{ userData.name }}</span
-    >! Uzupełnij swoje dane
-  </h1>
-  <BaseButton
-    text="Powrót do listy posiedzeń"
-    :hasIcon="false"
-    @click="goBack"
-    type="button"
-  />
-  <BaseCard v-if="!isLoading">
-    <form @submit.prevent="subimtHandler">
-      <p>
-        Wszystkie pola są dobrowolne. Dzięki ich wypełnieniu pozwolisz nam
-        zbierać bardziej rzetelne statystyki. Nie przekazujemy nigdzie Twoich
-        danych. W każdej chwili możesz je usunąć.
-      </p>
-      <BaseInput
-        label="Imię"
-        placeholder="Ania"
-        v-model="userData.name"
-        type="text"
-      />
-      <BaseInput
-        label="Kod pocztowy"
-        placeholder="00-000"
-        v-model="userData.postalCode"
-        type="text"
-        pattern="^\d{2}-\d{3}$"
-      />
-      <BaseInput
-        label="Rok urodzenia"
-        placeholder="1980"
-        v-model="userData.birthYear"
-        type="number"
-      />
-      <UtilsBaseSelect
-        :options="educationsArray"
-        label="Wykształcenie"
-        :default="userData.education"
-        @input="(item: Education) => educationSelectHandler(item)"
-      />
-      <BaseTab
-        label="Płeć"
-        :options="genderArray"
-        :default="userData.gender"
-        @input="(gender: Gender) => genderSelectHandler(gender)"
-      />
-      <p v-if="!formValid.valid" class="error__message">{{ formValid.msg }}</p>
+  <section class="list__container">
+    <h1>
+      Cześć <span v-if="userData.name">{{ userData.name }}</span
+      >! Uzupełnij swoje dane
+    </h1>
+    <BaseButton
+      text="Powrót do listy posiedzeń"
+      :hasIcon="false"
+      @click="goBack"
+      type="button"
+    />
+    <BaseCard v-if="!isLoading">
+      <form @submit.prevent="subimtHandler">
+        <p>
+          Wszystkie pola są dobrowolne. Dzięki ich wypełnieniu pozwolisz nam
+          zbierać bardziej rzetelne statystyki. Nie przekazujemy nigdzie Twoich
+          danych. W każdej chwili możesz je usunąć.
+        </p>
+        <BaseInput
+          label="Imię"
+          placeholder="Ania"
+          v-model="userData.name"
+          type="text"
+        />
+        <BaseInput
+          label="Kod pocztowy"
+          placeholder="00-000"
+          v-model="userData.postalCode"
+          type="text"
+          pattern="^\d{2}-\d{3}$"
+        />
+        <BaseInput
+          label="Rok urodzenia"
+          placeholder="1980"
+          v-model="userData.birthYear"
+          type="number"
+        />
+        <UtilsBaseSelect
+          :options="educationsArray"
+          label="Wykształcenie"
+          :default="userData.education"
+          @input="(item: Education) => educationSelectHandler(item)"
+        />
+        <BaseTab
+          label="Płeć"
+          :options="genderArray"
+          :default="userData.gender"
+          @input="(gender: Gender) => genderSelectHandler(gender)"
+        />
+        <p v-if="!formValid.valid" class="error__message">
+          {{ formValid.msg }}
+        </p>
 
-      <BaseButton
-        text="Zapisz, idę głosować"
-        :has-icon="false"
-        button-type="default"
-        type="submit"
-      />
-    </form>
-  </BaseCard>
-  <UiLoading v-else :text="loadingMessage" />
+        <BaseButton
+          text="Zapisz, idę głosować"
+          :has-icon="false"
+          button-type="default"
+          type="submit"
+        />
+      </form>
+    </BaseCard>
+    <UiLoading v-else :text="loadingMessage" />
 
-  <hr />
+    <hr />
 
-  <BaseButton
-    button-type="destroy"
-    text="Wyloguj"
-    :has-icon="false"
-    @click="logOutHandler()"
-  />
+    <BaseButton
+      button-type="destroy"
+      text="Wyloguj"
+      :has-icon="false"
+      @click="logOutHandler()"
+    />
+  </section>
 </template>
 
 <style scoped>

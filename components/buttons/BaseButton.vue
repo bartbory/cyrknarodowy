@@ -70,11 +70,16 @@ button {
   font-size: 16px;
   font-weight: 300;
   cursor: pointer;
+  transition: border-radius 0.5s;
+}
+
+button:hover {
+  border-radius: 24px 8px 24px 8px;
 }
 
 .default {
   border: 1px solid rgb(var(--blue));
-  background: rgb(var(--blue));
+  background: rgba(var(--blue), 1);
   color: rgb(var(--white));
 }
 .outline {
