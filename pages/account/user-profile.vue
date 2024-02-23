@@ -125,18 +125,22 @@ function goBack() {
       Cześć <span v-if="userData.name">{{ userData.name }}</span
       >! Uzupełnij swoje dane
     </h1>
-    <BaseButton
+    <!-- <BaseButton
       text="Powrót do listy posiedzeń"
       :hasIcon="false"
       @click="goBack"
       type="button"
-    />
+    /> -->
     <BaseCard v-if="!isLoading">
       <form @submit.prevent="subimtHandler">
         <p>
           Wszystkie pola są dobrowolne. Dzięki ich wypełnieniu pozwolisz nam
           zbierać bardziej rzetelne statystyki. Nie przekazujemy nigdzie Twoich
-          danych. W każdej chwili możesz je usunąć.
+          danych. W każdej chwili możesz je usunąć. Żeby to zrobić
+          <a
+            href="mailto:bartosz.borycki@gmail.com?subject=Cyrk Narodowy - Proszę o usunięcie konta&body=Proszę o usunięcie mojego konta z bazy danych Cyrku Narodowego"
+            >napisz wiadomość z mail'a którym się rejestrowałeś</a
+          >
         </p>
         <BaseInput
           label="Imię"
