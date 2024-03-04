@@ -212,8 +212,8 @@ useSeoMeta({
         button-type="disable"
       />
     </section>
+    <h1>Głosowanie użytkowników</h1>
     <section v-if="!isLoading">
-      <h1>Głosowanie użytkowników</h1>
       <div class="votes__stats__container">
         <CardsStatisticAdditionalCard
           v-if="usersVotes"
