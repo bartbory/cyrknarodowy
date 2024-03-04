@@ -10,6 +10,7 @@ export const useUserStore = defineStore("user", {
   actions: {
     logout() {
       this.isLogged = false;
+      this.userId = "";
     },
     login() {
       this.isLogged = true;
