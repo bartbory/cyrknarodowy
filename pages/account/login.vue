@@ -4,6 +4,8 @@ import BaseInput from "~/components/utils/BaseInput.vue";
 import BaseCard from "~/components/ui/BaseCard.vue";
 const supabase = useSupabaseClient();
 
+const userStore = useUserStore();
+
 useHead({
   title: `Cyrk Narodowy - Logowanie`,
   meta: [
@@ -39,7 +41,9 @@ const loginHandler = async () => {
       email: email.value,
       password: password.value,
     });
-    if (data) {
+    if (data.user) {
+      userStore.login();
+      userStore.setUserId(data.user.id);
       navigateTo("/account/user-profile");
     }
     if (error) {

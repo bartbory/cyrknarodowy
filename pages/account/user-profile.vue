@@ -4,10 +4,13 @@ import BaseInput from "~/components/utils/BaseInput.vue";
 import BaseCard from "~/components/ui/BaseCard.vue";
 import { Education, Gender, type UserData } from "~/types/types";
 import BaseTab from "~/components/utils/BaseTab.vue";
+import { useUserStore } from "~/stores/user";
 
 definePageMeta({
   middleware: ["auth"],
 });
+
+const userStore = useUserStore();
 
 const supabase = useSupabaseClient();
 
@@ -108,8 +111,9 @@ if (user) {
   }
 }
 
-function logOutHandler() {
-  supabase.auth.signOut();
+async function logOutHandler() {
+  await supabase.auth.signOut();
+  userStore.logout();
   navigateTo("/");
 }
 

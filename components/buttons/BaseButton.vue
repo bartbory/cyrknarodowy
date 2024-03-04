@@ -60,6 +60,7 @@ const styleRender = computed(() => {
 <style scoped>
 button {
   min-width: 40px;
+  max-width: 90%;
   height: 40px;
   border-radius: 8px;
   display: flex;
@@ -70,11 +71,13 @@ button {
   font-size: 16px;
   font-weight: 300;
   cursor: pointer;
-  transition: border-radius 0.5s;
+  transition: all 0.3s ease-in-out;
+  margin: 0 auto;
 }
 
 button:hover {
-  border-radius: 24px 8px 24px 8px;
+  /* border-radius: 24px; */
+  transform: scale(0.95);
 }
 
 .default {

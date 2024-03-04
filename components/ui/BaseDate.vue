@@ -35,6 +35,10 @@ div {
   font-size: 12px;
   font-weight: 300;
   cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+div:hover {
+  transform: scale(0.95);
 }
 .default {
   border: 1px solid rgb(var(--blue));

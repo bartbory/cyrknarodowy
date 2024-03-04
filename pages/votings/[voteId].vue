@@ -2,24 +2,18 @@
 import type { StatisticsData, GovernmentVoteType } from "~/types/types";
 import BaseButton from "~/components/buttons/BaseButton.vue";
 import VotingCard from "~/components/cards/VotingCard.vue";
-import InfoCard from "~/components/cards/InfoCard.vue";
 import VoteItem from "~/components/cards/VoteItem.vue";
 import checkForVotes from "~/helpers/checkForVotes";
+import InfoCard from "~/components/cards/InfoCard.vue";
 
-const supabase = useSupabaseClient();
+const userStore = useUserStore();
+const showModal = ref(false);
+function userModalCloseHandler() {
+  showModal.value = !showModal.value;
+}
 
 const router = useRouter();
 const route = useRoute();
-
-const {
-  data: { user },
-} = await supabase.auth.getUser();
-
-const isLogged = ref(false);
-
-if (user) {
-  isLogged.value = true;
-}
 
 let loadingMessage = ref("Wczytuje dane");
 let isLoading = ref(true);
@@ -66,16 +60,16 @@ try {
   if (data.value) {
     //@ts-ignore
     vote = data.value.result;
-    if (user && vote) {
-      if (checkForVotes(vote.userVotesAbstain, user.id)) {
+    if (userStore && vote) {
+      if (checkForVotes(vote.userVotesAbstain, userStore.userId)) {
         userVote.voteExist = true;
         userVote.vote = "abstain";
         userVote.voteMsg = "Twój głos: Wstrzymuję się";
-      } else if (checkForVotes(vote.userVotesNo, user.id)) {
+      } else if (checkForVotes(vote.userVotesNo, userStore.userId)) {
         userVote.voteExist = true;
         userVote.vote = "no";
         userVote.voteMsg = "Twój głos: Przeciw";
-      } else if (checkForVotes(vote.userVotesYes, user.id)) {
+      } else if (checkForVotes(vote.userVotesYes, userStore.userId)) {
         userVote.voteExist = true;
         userVote.vote = "yes";
         userVote.voteMsg = "Twój głos: Za";
@@ -91,7 +85,7 @@ async function userVoteHandler(voteId: string, decision: string) {
   isLoading.value = true;
   await useFetch(`/api/votes/${voteId}`, {
     method: "post",
-    body: { user: user!.id, vote: decision },
+    body: { user: userStore.userId, vote: decision },
   });
 }
 
@@ -102,40 +96,52 @@ function goBack() {
 }
 
 async function saveYes() {
-  loadingMessage.value = "Wysyłam Twój głos";
-  isLoading.value = true;
-  userVote = {
-    vote: "yes",
-    voteMsg: "Twój głos: Za",
-    voteExist: true,
-  };
-  await userVoteHandler(vote!.id, "yes");
-  await getStats(vote.id);
-  isLoading.value = false;
+  if (userStore.isLogged) {
+    loadingMessage.value = "Wysyłam Twój głos";
+    isLoading.value = true;
+    userVote = {
+      vote: "yes",
+      voteMsg: "Twój głos: Za",
+      voteExist: true,
+    };
+    await userVoteHandler(vote!.id, "yes");
+    await getStats(vote.id);
+    isLoading.value = false;
+  } else {
+    userModalCloseHandler();
+  }
 }
 async function saveNo() {
-  loadingMessage.value = "Wysyłam Twój głos";
-  isLoading.value = true;
-  userVote = {
-    vote: "no",
-    voteMsg: "Twój głos: Przeciw",
-    voteExist: true,
-  };
-  await userVoteHandler(vote!.id, "no");
-  await getStats(vote.id);
-  isLoading.value = false;
+  if (userStore.isLogged) {
+    loadingMessage.value = "Wysyłam Twój głos";
+    isLoading.value = true;
+    userVote = {
+      vote: "no",
+      voteMsg: "Twój głos: Przeciw",
+      voteExist: true,
+    };
+    await userVoteHandler(vote!.id, "no");
+    await getStats(vote.id);
+    isLoading.value = false;
+  } else {
+    userModalCloseHandler();
+  }
 }
 async function saveAbstain() {
-  loadingMessage.value = "Wysyłam Twój głos";
-  isLoading.value = true;
-  userVote = {
-    vote: "asbtain",
-    voteMsg: "Twój głos: Wstrzymuje się",
-    voteExist: true,
-  };
-  await userVoteHandler(vote.id, "abstain");
-  await getStats(vote.id);
-  isLoading.value = false;
+  if (userStore.isLogged) {
+    loadingMessage.value = "Wysyłam Twój głos";
+    isLoading.value = true;
+    userVote = {
+      vote: "asbtain",
+      voteMsg: "Twój głos: Wstrzymuje się",
+      voteExist: true,
+    };
+    await userVoteHandler(vote.id, "abstain");
+    await getStats(vote.id);
+    isLoading.value = false;
+  } else {
+    userModalCloseHandler();
+  }
 }
 
 async function getStats(voteId: string) {
@@ -152,24 +158,27 @@ async function getStats(voteId: string) {
   } catch (error) {
     console.log(error);
   }
+  isLoading.value = false;
 }
 
-if (user && userVote.voteExist) {
-  try {
-    isLoading.value = true;
-    const { data } = await useFetch(`/api/votes/${route.params.voteId}/stats`);
-    if (data.value) {
-      genderVotes.value = data.value.data.gender;
-      educationVotes.value = data.value.data.education;
-      voidvodeshipVotes.value = data.value.data.voidvodeship;
-      ageVotes.value = data.value.data.age;
-      usersVotes.value = data.value.data.votes;
-      isLoading.value = false;
-    }
-  } catch (error) {
-    console.log(error);
-  }
-}
+// if (userStore.isLogged && userVote.voteExist) {
+//   try {
+//     isLoading.value = true;
+//     const { data } = await useFetch(`/api/votes/${route.params.voteId}/stats`);
+//     if (data.value) {
+//       genderVotes.value = data.value.data.gender;
+//       educationVotes.value = data.value.data.education;
+//       voidvodeshipVotes.value = data.value.data.voidvodeship;
+//       ageVotes.value = data.value.data.age;
+//       usersVotes.value = data.value.data.votes;
+//       isLoading.value = false;
+//     }
+//   } catch (error) {
+//     console.log(error);
+//   }
+// }
+
+await getStats(vote.id);
 
 useHead({
   title: `Cyrk Narodowy - Głosowanie ${route.params.voteId}`,
@@ -194,14 +203,21 @@ useSeoMeta({
 
 <template>
   <div class="list__container">
-    <h1>Oddaj swój głos</h1>
+    <div class="head">
+      <BaseButton text="Wróć" :hasIcon="false" @click="goBack" />
+      <h1>Oddaj swój głos</h1>
+    </div>
     <UiLoading v-if="isLoading" :text="loadingMessage" />
     <section v-else>
-      <VoteItem :hasAction="false" :data="vote" v-if="vote" />
-      <BaseButton text="Wróć" :hasIcon="false" @click="goBack" />
-      <InfoCard v-if="!isLogged" />
+      <VoteItem
+        :hasAction="false"
+        :data="vote"
+        v-if="vote"
+        :has-limits="false"
+      />
+
       <VotingCard
-        v-if="user && vote && !userVote.voteExist"
+        v-if="vote && !userVote.voteExist"
         @vote-no="saveNo"
         @vote-yes="saveYes"
         @vote-hold="saveAbstain"
@@ -219,10 +235,11 @@ useSeoMeta({
         title="Głosowanie posłów"
         v-if="vote"
       />
-      <h1 v-if="userVote.voteExist">Głosowanie narodu</h1>
+
+      <h1>Głosowanie użytkowników</h1>
       <div class="votes__stats__container">
         <CardsStatisticAdditionalCard
-          v-if="usersVotes && userVote.voteExist"
+          v-if="usersVotes"
           :data="usersVotes"
           title="Według głosów"
           table-title="Głos"
@@ -252,8 +269,19 @@ useSeoMeta({
           table-title="Województwo"
         />
       </div>
+      <InfoCard v-if="!userStore.isLogged">
+        <p>
+          Chcesz poznać jak rozkładają się głosy w podziale na wiek,
+          województwo, płeć czy wykształcenie?
+        </p></InfoCard
+      >
     </section>
   </div>
+  <ModalUnregistredVoteInfo
+    v-if="showModal"
+    @click="userModalCloseHandler()"
+    @close="userModalCloseHandler()"
+  />
 </template>
 
 <style scoped>
@@ -261,6 +289,15 @@ section {
   display: flex;
   flex-direction: column;
   gap: 24px;
+}
+
+.head {
+  display: flex;
+  gap: 16px;
+}
+
+.head > h1 {
+  flex: 1 0 50%;
 }
 
 .votes__stats__container {

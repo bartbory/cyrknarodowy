@@ -28,5 +28,10 @@ const props = defineProps({
   max-width: 1180px;
   width: 100%;
   margin: 0 auto;
+  transition: 0.3s ease-in-out;
+}
+
+.card__container:hover {
+  transform: scale(1.01);
 }
 </style>

@@ -7,6 +7,7 @@ const props = defineProps({
   data: { type: Object as PropType<ReferendumVoteType>, required: true },
   hasAction: { type: Boolean, default: true },
   hasVoted: { type: Boolean, default: false },
+  hasLimits: { type: Boolean, default: true },
 });
 </script>
 
@@ -14,9 +15,13 @@ const props = defineProps({
   <div>
     <BaseCard>
       <div class="card__data">
-        <h3>{{ data.title }}</h3>
-        <p v-if="data.topic">{{ data.topic }}</p>
-        <p v-if="data.description">{{ data.description }}</p>
+        <h3 :class="hasLimits ? 'limit' : ''">{{ data.title }}</h3>
+        <p v-if="data.topic" :class="hasLimits ? 'limit' : ''">
+          {{ data.topic }}
+        </p>
+        <p v-if="data.description" :class="hasLimits ? 'limit' : ''">
+          {{ data.description }}
+        </p>
       </div>
       <div class="card__action">
         <div class="card__action-options" v-if="hasAction">
@@ -47,23 +52,26 @@ const props = defineProps({
 
 .card__data h3,
 .card__data p {
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 3;
   align-self: stretch;
-  overflow: hidden;
   color: rgb(var(--black));
-  text-overflow: ellipsis;
   font-style: normal;
   font-weight: 300;
   line-height: normal;
 }
 
+.limit {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .card__data h3 {
-  font-size: 14px;
+  font-size: 16px;
 }
 .card__data p {
-  font-size: 12px;
+  font-size: 14px;
 }
 
 .card__action {

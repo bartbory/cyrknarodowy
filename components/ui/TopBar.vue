@@ -4,8 +4,14 @@ import BaseButton from "../buttons/BaseButton.vue";
 
 const showModal = ref(false);
 
+const userStore = useUserStore();
+
 function userProfileHandler() {
-  navigateTo("/account/user-profile");
+  if (userStore.isLogged) {
+    navigateTo("/account/user-profile");
+  } else {
+    navigateTo("/account/login");
+  }
 }
 
 function infoModalHandler() {
@@ -24,10 +30,10 @@ function infoModalHandler() {
       />
       <img src="/logo.png" @click="navigateTo('/')" />
       <BaseButton
-        :has-icon="true"
+        :has-icon="userStore.isLogged ? true : false"
         :icon="IconTypes.User"
-        text=""
-        button-type="default"
+        :text="userStore.isLogged ? '' : 'Zaloguj się'"
+        :button-type="userStore.isLogged ? 'default' : 'outline'"
         @click="userProfileHandler()"
         aria-label="Profil użytkownika"
       />

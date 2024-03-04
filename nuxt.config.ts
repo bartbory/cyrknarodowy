@@ -1,7 +1,7 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   devtools: { enabled: true },
-  modules: ["@nuxtjs/supabase", "nuxt-gtag", "@vite-pwa/nuxt"],
+  modules: ["@nuxtjs/supabase", "nuxt-gtag", "@vite-pwa/nuxt", "@pinia/nuxt"],
   css: ["~/assets/css/main.css"],
   gtag: {
     id: "G-R66G4PS0TZ",

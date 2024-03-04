@@ -442,7 +442,7 @@ export default defineEventHandler(async (event) => {
     const actualYear = new Date().getFullYear();
     const ageVotes: StatisticsData[] = [
       {
-        key: "poniej 18",
+        key: "poniżej 18",
         votes: {
           abstain: response!.userVotesAbstain.filter((user) => {
             if (user.birthYear && user.birthYear > actualYear - 18)

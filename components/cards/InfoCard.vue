@@ -10,10 +10,10 @@ function goToRegister() {
 
 <template>
   <BaseCard :is-default="false">
-    <p>
+    <slot>
       Załóż konto i głosuj. Weź udział w zabawie rejestrując się w naszym
       systemie.
-    </p>
+    </slot>
     <BaseButton
       button-type="default"
       :has-icon="true"
