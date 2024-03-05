@@ -60,7 +60,7 @@ const styleRender = computed(() => {
 <style scoped>
 button {
   min-width: 40px;
-  max-width: 90%;
+  max-width: 100%;
   height: 40px;
   border-radius: 8px;
   display: flex;

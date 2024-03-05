@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import type { PropType } from "vue";
 import type { GovernmentVoteType } from "~/types/types";
+import { IconTypes } from "~/types/types";
+import BaseIcon from "../ui/BaseIcon.vue";
 
 const props = defineProps({
   data: { type: Object as PropType<GovernmentVoteType>, required: true },
@@ -20,15 +22,21 @@ let voteResult = {
   <UiBaseCard>
     <h2>{{ title }}</h2>
     <div class="row">
-      <p class="key">Za</p>
+      <p class="key">
+        <BaseIcon :icon="IconTypes.YesFont" :icon-size="16" />Za
+      </p>
       <p class="value">{{ voteResult.yes }}</p>
     </div>
     <div class="row">
-      <p class="key">Przeciw</p>
+      <p class="key">
+        <BaseIcon :icon="IconTypes.NoFont" :icon-size="16" />Przeciw
+      </p>
       <p class="value">{{ voteResult.no }}</p>
     </div>
     <div class="row">
-      <p class="key">Wstrzymało się</p>
+      <p class="key">
+        <BaseIcon :icon="IconTypes.AbstainFont" :icon-size="16" />Wstrzymało się
+      </p>
       <p class="value">{{ voteResult.abstain }}</p>
     </div>
     <div class="row">
@@ -50,9 +58,17 @@ let voteResult = {
   align-items: center;
   font-size: 16px;
   font-weight: 300;
-  padding: 2px 8px;
+  min-height: 32px;
+  padding: 2px 4px;
+  background-color: rgb(var(--white));
+  transition: 0.3s;
+}
+.row:hover {
+  background-color: rgb(var(--gray900));
 }
 .key {
+  display: flex;
+  gap: 8px;
   flex: 0 0 60%;
 }
 .value {

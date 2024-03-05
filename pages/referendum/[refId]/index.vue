@@ -248,7 +248,7 @@ useSeoMeta({
       </div>
       <InfoCard v-if="!userStore.isLogged">
         <p>
-          Chcesz poznać jak rozkładają się głosy w podziale na wiek,
+          🤔 Chcesz się dowiedzieć jaki jest rozkład głosów w podziale na wiek,
           województwo, płeć czy wykształcenie?
         </p></InfoCard
       >

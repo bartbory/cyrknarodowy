@@ -45,7 +45,7 @@ const emits = defineEmits(["voteYes", "voteNo", "voteHold"]);
 
 .voting__container:deep(button) {
   flex-grow: 1;
-  min-width: 90%;
+  min-width: 100%;
   height: 80px;
 }
 

@@ -2,7 +2,6 @@
 import type { PropType } from "vue";
 import {
   IconTypes,
-  type GovernmentVoteType,
   type StatisticsData,
 } from "~/types/types";
 import BaseIcon from "../ui/BaseIcon.vue";

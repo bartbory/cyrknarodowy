@@ -32,7 +32,7 @@ function infoModalHandler() {
       <BaseButton
         :has-icon="userStore.isLogged ? true : false"
         :icon="IconTypes.User"
-        :text="userStore.isLogged ? '' : 'Zaloguj się'"
+        :text="userStore.isLogged ? '' : 'Zaloguj'"
         :button-type="userStore.isLogged ? 'default' : 'outline'"
         @click="userProfileHandler()"
         aria-label="Profil użytkownika"
@@ -71,22 +71,19 @@ function infoModalHandler() {
   justify-content: space-between;
   margin: 0 auto;
 }
-.topbar__button {
-  width: 40px;
-  height: 40px;
-  border-radius: 4px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: rgb(var(--blue));
-  color: rgb(var(--white));
-  position: relative;
+
+.wrapper:deep(button) {
+  margin: 0;
 }
 
 img {
   max-height: 40px;
   max-width: 60%;
   cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+img:hover {
+  transform: scale(1.1);
 }
 
 .side__box {

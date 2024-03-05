@@ -1,7 +1,13 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   devtools: { enabled: true },
-  modules: ["@nuxtjs/supabase", "nuxt-gtag", "@vite-pwa/nuxt", "@pinia/nuxt"],
+  modules: [
+    "@nuxtjs/supabase",
+    "nuxt-gtag",
+    "@vite-pwa/nuxt",
+    "@pinia/nuxt",
+    "@nuxt/image",
+  ],
   css: ["~/assets/css/main.css"],
   gtag: {
     id: "G-R66G4PS0TZ",
@@ -15,6 +21,7 @@ export default defineNuxtConfig({
       callback: "/confirm",
       exclude: [
         "/",
+        "/home",
         "/votings/*",
         "/referendum/*",
         "/referendum",

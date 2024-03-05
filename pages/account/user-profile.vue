@@ -112,6 +112,7 @@ if (user) {
 }
 
 async function logOutHandler() {
+  isLoading.value = true;
   await supabase.auth.signOut();
   userStore.logout();
   navigateTo("/");

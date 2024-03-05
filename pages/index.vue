@@ -27,20 +27,21 @@ useSeoMeta({
 });
 
 //Auth Check
-const supabase = useSupabaseClient();
-const {
-  data: { user },
-} = await supabase.auth.getUser();
+const userStore = useUserStore()
+// const supabase = useSupabaseClient();
+// const {
+//   data: { user },
+// } = await supabase.auth.getUser();
 
 const route = useRoute();
 const router = useRouter();
 
 const routeSitting = route.query?.sitting;
 
-const isLogged = ref(false);
-if (user) {
-  isLogged.value = true;
-}
+// const isLogged = ref(false);
+// if (user) {
+//   isLogged.value = true;
+// }
 
 // Refs
 const votesToShow: Ref<GovernmentVoteType[]> = ref([]);
@@ -153,7 +154,7 @@ watch([activeSitting, activeDate], async ([newSitting, newDate]) => {
       </div>
     </div>
 
-    <InfoCard v-if="!isLogged" />
+    <InfoCard v-if="!userStore.isLogged" />
     <UiLoading v-if="isLoading" />
     <VotesList :votes="votesToShow" v-if="votes && !isLoading" />
   </div>

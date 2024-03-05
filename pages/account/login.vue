@@ -32,8 +32,10 @@ let formValid = reactive({
   msg: "",
   valid: true,
 });
+const isLoading = ref(false);
 
 const loginHandler = async () => {
+  isLoading.value = true;
   formValid.msg = "";
   formValid.valid = true;
   if (formValid.valid) {
@@ -45,6 +47,7 @@ const loginHandler = async () => {
       userStore.login();
       userStore.setUserId(data.user.id);
       navigateTo("/account/user-profile");
+      isLoading.value = false;
     }
     if (error) {
       switch (error.status) {
@@ -62,6 +65,7 @@ const loginHandler = async () => {
       }
     }
   }
+  isLoading.value = false;
 };
 
 function goToRegister() {
@@ -71,7 +75,8 @@ function goToRegister() {
 <template>
   <BaseCard>
     <h1>Logowanie</h1>
-    <form @submit.prevent="loginHandler">
+    <UiLoading v-if="isLoading" />
+    <form @submit.prevent="loginHandler" v-else>
       <BaseInput
         label="E-mail"
         placeholder="jan.kowalski@email.com"
