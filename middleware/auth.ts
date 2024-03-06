@@ -4,7 +4,8 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
   const {
     data: { user },
   } = await supabase.auth.getUser();
-
+  const userStore = useUserStore();
+  if (user) userStore.login(user.id);
   // redirect the user to the login page
   if (!user) {
     return navigateTo({

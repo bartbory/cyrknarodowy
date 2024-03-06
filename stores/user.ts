@@ -12,10 +12,8 @@ export const useUserStore = defineStore("user", {
       this.isLogged = false;
       this.userId = "";
     },
-    login() {
+    login(userId: string) {
       this.isLogged = true;
-    },
-    setUserId(userId: string) {
       this.userId = userId;
     },
   },

@@ -44,8 +44,7 @@ const loginHandler = async () => {
       password: password.value,
     });
     if (data.user) {
-      userStore.login();
-      userStore.setUserId(data.user.id);
+      userStore.login(data.user.id);
       navigateTo("/account/user-profile");
       isLoading.value = false;
     }
