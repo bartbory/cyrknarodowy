@@ -1,92 +1,180 @@
-<script setup>
-import { IconTypes } from "~/types/types";
+<script setup lang="ts">
+import VotesList from "~/components/lists/VotesList.vue";
+import sittingDates from "~/assets/sittingDates.json";
+import type { GovernmentVoteType } from "~/types/types";
+import BaseDate from "~/components/ui/BaseDate.vue";
 import InfoCard from "~/components/cards/InfoCard.vue";
-</script>
-<template>
-  <UiBaseCard> <h1>🎪🇵🇱 Witajcie w Cyrku Narodowym! 🇵🇱🎪</h1></UiBaseCard>
-  <UiBaseImage image-source="1" image-alt="Cyrk narodowy" />
-  <CardsInfoCard />
-  <UiBaseCard>
-    <div class="content">
-      <h2>
-        Chcesz poznać, jak Twoje poglądy i opinie kształtują się wśród innych
-        obywateli?
-      </h2>
-      <p>
-        Aplikacja Cyrk Narodowy to idealne miejsce, aby się o tym przekonać!
-      </p>
-      <p>
-        📊 W Cyrku Narodowym Twoje głosy mają moc nie tylko wyrażenia opinii,
-        ale także dostarczenia cennych danych statystycznych na temat
-        różnorodności społeczeństwa.
-      </p>
-      <p>
-        📈 Chociaż nie wpływają one bezpośrednio na decyzje polityczne, to
-        jednak stanowią istotny zbiór informacji dla badaczy i analizy trendów
-        społecznych.
-      </p>
-      <h3>Dlaczego warto dołączyć do Cyrku Narodowego?</h3>
-      <p>💡 Rzuć światło na różnorodność:</p>
-      <ul>
-        <li>
-          Twoje odpowiedzi pomagają w lepszym zrozumieniu różnic i podobieństw w
-          społeczeństwie.
-        </li>
-        <li>To szansa na poznanie, jak myślą i czują inni obywatele Polski.</li>
-      </ul>
-      <h3>🔎 Wpłyń na badania społeczne:</h3>
-      <ul>
-        <li>
-          Twoje dane mogą być wykorzystane do prowadzenia badań naukowych i
-          analiz społecznych.
-        </li>
-        <li>
-          Twoja aktywność przyczynia się do zgłębiania wiedzy o naszym
-          społeczeństwie.
-        </li>
-      </ul>
+import dateFormater from "~/helpers/dateFormater";
 
-      <h3>🔒 Bezpieczne i poufne:</h3>
-      <ul>
-        <li>Cyrk Narodowy dba o ochronę Twoich danych osobowych.</li>
-        <li>
-          Twoja poufność jest dla nas priorytetem. Nie zbieramy poufnych
-          informacji.
-        </li>
-      </ul>
-      <p>
-        Przekonaj się, jak wygląda krajobraz społeczny Polski! Dołącz do Cyrku
-        Narodowego już dziś i przyczyń się do lepszego zrozumienia naszego
-        społeczeństwa! 🌟📊
-      </p>
-      <ButtonsBaseButton
-        text="Załóż konto"
-        button-type="default"
-        :has-icon="true"
-        :icon="IconTypes.User"
-        @click="
-          () => {
-            navigateTo('/account/register');
-          }
-        "
-      />
+useHead({
+  title: "Cyrk Narodowy",
+  meta: [
+    { name: "author", content: "Bartosz Borycki" },
+    { name: "viewport", content: "width=device-width, initial-scale=1.0" },
+  ],
+  htmlAttrs: {
+    lang: "pl-PL",
+  },
+});
+
+useSeoMeta({
+  ogTitle: "Cyrk Narodowy",
+  description:
+    "Zostań wirtualnym posłem i bierz udział w głosowaniach! Zobaczmy, czy naród podziela zdanie posłów :)",
+  ogDescription:
+    "Zostań wirtualnym posłem i bierz udział w głosowaniach! Zobaczmy, czy naród podziela zdanie posłów :)",
+  ogImage: "/ogImage.png",
+});
+
+const userStore = useUserStore();
+
+const route = useRoute();
+const router = useRouter();
+
+const routeSitting = route.query?.sitting;
+
+// Refs
+const votesToShow: Ref<GovernmentVoteType[]> = ref([]);
+const activeSitting = ref(
+  routeSitting
+    ? sittingDates.posiedzenia[+routeSitting - 1]
+    : sittingDates.posiedzenia[0]
+);
+const activeDate = ref(activeSitting.value.dates[0]);
+const isLoading = ref(true);
+let votes: Ref<GovernmentVoteType[]> = ref([]);
+
+// Fetch votes data
+async function fetchVotings(sitting: number) {
+  try {
+    const { data } = await useFetch(`/api/${sitting}/getAllVotes`, {
+      params: { sitting: sitting },
+    });
+    if (data.value) {
+      votes.value = data.value.data;
+      isLoading.value = false;
+      filterVotes(dateFormater(activeSitting.value.dates[0]));
+    }
+  } catch (error) {
+    console.log(error);
+    isLoading.value = false;
+  }
+}
+
+await fetchVotings(activeSitting.value.sitting);
+
+// Filtering votes by date
+function filterVotes(date: string) {
+  const filteredVotes = votes.value.filter((vote) => {
+    if (dateFormater(vote.date) === date) {
+      return vote;
+    }
+  });
+  votesToShow.value = filteredVotes;
+}
+
+// Watchers
+watch([activeSitting, activeDate], async ([newSitting, newDate]) => {
+  isLoading.value = true;
+  await fetchVotings(newSitting.sitting);
+  filterVotes(dateFormater(newDate));
+});
+</script>
+
+<template>
+  <div class="list__container">
+    <h1>Lista głosowań</h1>
+
+    <div class="slide__container">
+      <h2>Posiedzenie</h2>
+      <div class="selector__container">
+        <div class="dates__container">
+          <ButtonsBaseButton
+            v-for="(sitting, i) in sittingDates.posiedzenia"
+            :key="sitting.dates[i]"
+            :text="sitting.sitting.toString()"
+            :has-icon="false"
+            :button-type="
+              sitting.sitting === activeSitting.sitting ? 'default' : 'outline'
+            "
+            @click="
+              () => {
+                router.push(`?sitting=${sitting.sitting}`);
+                activeSitting = sitting;
+                activeDate = sitting.dates[0];
+              }
+            "
+          />
+        </div>
+        <div>
+          <ButtonsBaseButton
+            text="Referenda"
+            :has-icon="false"
+            button-type="outline"
+            @click="
+              () => {
+                router.push(`/referendum`);
+              }
+            "
+          />
+        </div>
+      </div>
     </div>
-  </UiBaseCard>
+
+    <div class="slide__container">
+      <h4>Daty</h4>
+      <div class="dates__container">
+        <BaseDate
+          v-for="(sittingDate, i) in activeSitting.dates"
+          :key="i"
+          :text="dateFormater(sittingDate)"
+          :has-icon="false"
+          :button-type="
+            dateFormater(sittingDate) === dateFormater(activeDate)
+              ? 'default'
+              : 'outline'
+          "
+          @date-select="
+            () => {
+              activeDate = sittingDate;
+              filterVotes(sittingDate);
+            }
+          "
+        />
+      </div>
+    </div>
+
+    <InfoCard v-if="!userStore.isLogged" />
+    <UiLoading v-if="isLoading" />
+    <VotesList :votes="votesToShow" v-if="votes && !isLoading" />
+  </div>
 </template>
 
 <style scoped>
-h1 {
-  text-align: center;
+.selector__container {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
 }
-.content {
+.dates__container {
+  display: flex;
+  gap: 8px;
+  overflow-x: scroll;
+  flex-shrink: 1;
+}
+
+.dates__container::-webkit-scrollbar {
+  display: none;
+}
+
+.dates__container:deep(button) {
+  font-size: 14px;
+  min-width: 48px;
+}
+
+.slide__container {
   display: flex;
   flex-direction: column;
-  gap: 32px;
-  max-width: 1120px;
-  padding: 16px;
-}
-ul,
-li {
-  list-style-type: none;
+  gap: 8px;
 }
 </style>

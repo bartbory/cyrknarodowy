@@ -21,12 +21,11 @@ export default defineNuxtConfig({
       callback: "/confirm",
       exclude: [
         "/",
-        "/home",
-        "/votings",
         "/votings/*",
         "/referendum/*",
         "/referendum",
         "/account/register",
+        "/account/login",
       ],
       cookieRedirect: false,
     },
