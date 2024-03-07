@@ -208,7 +208,7 @@ useSeoMeta({
 <template>
   <div class="list__container">
     <div class="head">
-      <BaseButton text="Wróć" :hasIcon="true" :icon="IconTypes.Back" @click="goBack" />
+      <BaseButton text="" :hasIcon="true" :icon="IconTypes.Back" @click="goBack" />
       <h1>Oddaj swój głos</h1>
     </div>
     <UiLoading v-if="isLoading" :text="loadingMessage" />

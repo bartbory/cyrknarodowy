@@ -208,7 +208,7 @@ useSeoMeta({
   <div class="list__container">
     <div class="head">
       <BaseButton
-        text="Wróć"
+        text=""
         :hasIcon="true"
         :icon="IconTypes.Back"
         @click="goBack"

@@ -128,7 +128,7 @@ function goToMain() {
   <section class="list__container">
     <div class="head">
       <BaseButton
-        text="Lista głosowań"
+        text=""
         :hasIcon="true"
         :icon="IconTypes.Back"
         @click="goToMain"
