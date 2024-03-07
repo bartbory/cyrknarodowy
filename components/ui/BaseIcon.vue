@@ -15,70 +15,75 @@ const size = computed(() => {
 
 const iconRender = computed(() => {
   switch (props.icon) {
-    case IconTypes.Eye:
-      return "/icons/icon-show_color.png";
+    case IconTypes.Sitting:
+      return "info";
       break;
     case IconTypes.Yes:
-      return "/icons/icon-yes_color.png";
+      return "yes";
       break;
     case IconTypes.No:
-      return "/icons/icon-no_color.png";
+      return "no";
       break;
     case IconTypes.Abstain:
-      return "/icons/icon-abstain_color.png";
-      break;
-    case IconTypes.YesFont:
-      return "/icons/icon-yes_font.png";
-      break;
-    case IconTypes.NoFont:
-      return "/icons/icon-no_font.png";
-      break;
-    case IconTypes.AbstainFont:
-      return "/icons/icon-abstain_font.png";
-      break;
-    case IconTypes.Time:
-      return "/icons/icon-time_color.png";
+      return "abstain";
       break;
     case IconTypes.Info:
-      return "/icons/icon-info_color.png";
+      return "info";
       break;
-    case IconTypes.Down:
-      return "/icons/icon-down.png";
+    case IconTypes.Back:
+      return "back";
       break;
     case IconTypes.User:
-      return "/icons/icon-user_color.png";
+      return "user";
+      break;
+    case IconTypes.Referendum:
+      return "info";
+      break;
+    case IconTypes.Login:
+      return "info";
+      break;
+    case IconTypes.Logout:
+      return "info";
       break;
 
     default:
+      return "info";
+
       break;
   }
 });
 
 const labelRender = computed(() => {
   switch (props.icon) {
-    case IconTypes.Eye:
-      return "Zobacz";
+    case IconTypes.Sitting:
+      return "Posiedzenia";
       break;
-    case IconTypes.Yes || IconTypes.YesFont:
+    case IconTypes.Yes:
       return "Głos na tak";
       break;
-    case IconTypes.No || IconTypes.NoFont:
+    case IconTypes.No:
       return "Głos na nie";
       break;
-    case IconTypes.Abstain || IconTypes.AbstainFont:
+    case IconTypes.Abstain:
       return "Wstrzymanie się od głosu";
-      break;
-    case IconTypes.Time:
-      return "Czas";
       break;
     case IconTypes.Info:
       return "Informacja";
       break;
-    case IconTypes.Down:
-      return "W dół";
+    case IconTypes.Back:
+      return "Wstecz";
       break;
     case IconTypes.User:
-      return "Uzytkownik";
+      return "Użytkownik";
+      break;
+    case IconTypes.Referendum:
+      return "Lista referend";
+      break;
+    case IconTypes.Login:
+      return "Logowanie";
+      break;
+    case IconTypes.Logout:
+      return "Wylogowanie";
       break;
 
     default:
@@ -88,8 +93,8 @@ const labelRender = computed(() => {
 </script>
 
 <template>
-  <div>
-    <img :src="iconRender" :style="size" :aria-label="labelRender" />
+  <div :style="{ fontSize: size.width, lineHeight: size.width }">
+    <nuxt-icon :name="iconRender" :style="size" :aria-label="labelRender" />
   </div>
 </template>
 
@@ -98,5 +103,11 @@ div {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+div:deep(.nuxt-icon svg) {
+  margin: 0;
+  width: 1em;
+  height: 1em;
 }
 </style>

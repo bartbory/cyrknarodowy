@@ -23,19 +23,19 @@ let voteResult = {
     <h2>{{ title }}</h2>
     <div class="row">
       <p class="key">
-        <BaseIcon :icon="IconTypes.YesFont" :icon-size="16" />Za
+        <BaseIcon :icon="IconTypes.Yes" :icon-size="16" />Za
       </p>
       <p class="value">{{ voteResult.yes }}</p>
     </div>
     <div class="row">
       <p class="key">
-        <BaseIcon :icon="IconTypes.NoFont" :icon-size="16" />Przeciw
+        <BaseIcon :icon="IconTypes.No" :icon-size="16" />Przeciw
       </p>
       <p class="value">{{ voteResult.no }}</p>
     </div>
     <div class="row">
       <p class="key">
-        <BaseIcon :icon="IconTypes.AbstainFont" :icon-size="16" />Wstrzymało się
+        <BaseIcon :icon="IconTypes.Abstain" :icon-size="16" />Wstrzymało się
       </p>
       <p class="value">{{ voteResult.abstain }}</p>
     </div>

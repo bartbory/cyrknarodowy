@@ -1,9 +1,6 @@
 <script setup lang="ts">
 import type { PropType } from "vue";
-import {
-  IconTypes,
-  type StatisticsData,
-} from "~/types/types";
+import { IconTypes, type StatisticsData } from "~/types/types";
 import BaseIcon from "../ui/BaseIcon.vue";
 
 const props = defineProps({
@@ -23,13 +20,13 @@ const props = defineProps({
       <div class="head__row">
         <p class="key">{{ tableTitle }}</p>
         <div class="value">
-          <BaseIcon :icon="IconTypes.YesFont" :icon-size="16" />
+          <BaseIcon :icon="IconTypes.Yes" :icon-size="16" />
         </div>
         <div class="value">
-          <BaseIcon :icon="IconTypes.NoFont" :icon-size="16" />
+          <BaseIcon :icon="IconTypes.No" :icon-size="16" />
         </div>
         <div class="value">
-          <BaseIcon :icon="IconTypes.AbstainFont" :icon-size="16" />
+          <BaseIcon :icon="IconTypes.Abstain" :icon-size="16" />
         </div>
       </div>
       <div class="row" v-for="votes in data" :key="votes.key">
@@ -54,7 +51,7 @@ const props = defineProps({
   width: 100%;
   display: flex;
   align-items: center;
-  padding: 2px 8px;
+  padding: 2px 4px;
 }
 
 .head__row > .key {

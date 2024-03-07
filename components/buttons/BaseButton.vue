@@ -3,6 +3,7 @@ import type { PropType } from "vue";
 import BaseIcon from "../ui/BaseIcon.vue";
 import type { IconTypes } from "~/types/types";
 
+
 const props = defineProps({
   text: { type: String, required: false },
   hasIcon: { type: Boolean, required: true, default: true },

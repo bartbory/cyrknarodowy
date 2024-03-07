@@ -26,7 +26,7 @@ const date = computed(() => {
 div {
   min-width: 64px;
   height: 40px;
-  border-radius: 4px;
+  border-radius: 8px;
   display: flex;
   flex-direction: column;
   justify-content: center;

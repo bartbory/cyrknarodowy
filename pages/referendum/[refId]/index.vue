@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { StatisticsData, ReferendumVoteType } from "~/types/types";
+import { type StatisticsData, type ReferendumVoteType, IconTypes } from "~/types/types";
 import BaseButton from "~/components/buttons/BaseButton.vue";
 import VotingCard from "~/components/cards/VotingCard.vue";
 import checkForVotes from "~/helpers/checkForVotes";
@@ -74,6 +74,27 @@ try {
 } catch (error) {
   console.log(error);
 }
+
+const userVoteType = computed(() => {
+  switch (userVote.vote) {
+    case "yes":
+      console.log("tak");
+      return "success";
+      break;
+    case "no":
+      console.log("nie");
+      return "destroy";
+      break;
+    case "abstain":
+      console.log("hold");
+      return "warning";
+      break;
+
+    default:
+      return "disable";
+      break;
+  }
+});
 
 async function userVoteHandler(refId: string, decision: string) {
   isLoading.value = true;
@@ -186,7 +207,12 @@ useSeoMeta({
 <template>
   <div class="list__container">
     <div class="head">
-      <BaseButton text="Wróć" :hasIcon="false" @click="goBack" />
+      <BaseButton
+        text="Wróć"
+        :hasIcon="true"
+        :icon="IconTypes.Back"
+        @click="goBack"
+      />
       <h1>Oddaj swój głos</h1>
     </div>
     <UiLoading v-if="isLoading" :text="loadingMessage" />
@@ -209,7 +235,7 @@ useSeoMeta({
         v-if="userVote.voteExist"
         :text="userVote.voteMsg"
         :has-icon="false"
-        button-type="disable"
+        :button-type="userVoteType"
       />
     </section>
     <h1>Głosowanie użytkowników</h1>

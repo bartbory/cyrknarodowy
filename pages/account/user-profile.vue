@@ -2,7 +2,7 @@
 import BaseButton from "~/components/buttons/BaseButton.vue";
 import BaseInput from "~/components/utils/BaseInput.vue";
 import BaseCard from "~/components/ui/BaseCard.vue";
-import { Education, Gender, type UserData } from "~/types/types";
+import { Education, Gender, IconTypes, type UserData } from "~/types/types";
 import BaseTab from "~/components/utils/BaseTab.vue";
 import { useUserStore } from "~/stores/user";
 
@@ -118,24 +118,26 @@ async function logOutHandler() {
   navigateTo("/");
 }
 
-function goBack() {
+function goToMain() {
   isLoading.value = true;
   loadingMessage.value = "Wczytuję...";
-  navigateTo("/");
+  navigateTo("/votings");
 }
 </script>
 <template>
   <section class="list__container">
-    <h1>
-      Cześć <span v-if="userData.name">{{ userData.name }}</span
-      >! Uzupełnij swoje dane
-    </h1>
-    <!-- <BaseButton
-      text="Powrót do listy posiedzeń"
-      :hasIcon="false"
-      @click="goBack"
-      type="button"
-    /> -->
+    <div class="head">
+      <BaseButton
+        text="Lista głosowań"
+        :hasIcon="true"
+        :icon="IconTypes.Back"
+        @click="goToMain"
+      />
+      <h1>
+        Cześć <span v-if="userData.name">{{ userData.name }}</span
+        >! Uzupełnij swoje dane
+      </h1>
+    </div>
     <BaseCard v-if="!isLoading">
       <form @submit.prevent="subimtHandler">
         <p>
@@ -184,7 +186,8 @@ function goBack() {
 
         <BaseButton
           text="Zapisz, idę głosować"
-          :has-icon="false"
+          :has-icon="true"
+          :icon="IconTypes.Yes"
           button-type="default"
           type="submit"
         />
@@ -204,6 +207,14 @@ function goBack() {
 </template>
 
 <style scoped>
+.head {
+  display: flex;
+  gap: 16px;
+}
+
+.head > h1 {
+  flex: 1 0 50%;
+}
 form {
   display: flex;
   flex-direction: column;

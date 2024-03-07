@@ -21,22 +21,26 @@ function infoModalHandler() {
 <template>
   <div class="topbar__container">
     <div class="wrapper">
-      <BaseButton
-        :has-icon="true"
-        :icon="IconTypes.Info"
-        text=""
-        @click="infoModalHandler()"
-        aria-label="Informacje"
-      />
+      <div class="action--left">
+        <BaseButton
+          :has-icon="true"
+          :icon="IconTypes.Info"
+          text=""
+          @click="infoModalHandler()"
+          aria-label="Informacje"
+        />
+      </div>
       <img src="/logo.png" @click="navigateTo('/')" />
-      <BaseButton
-        :has-icon="userStore.isLogged ? true : false"
-        :icon="IconTypes.User"
-        :text="userStore.isLogged ? '' : 'Zaloguj'"
-        :button-type="userStore.isLogged ? 'default' : 'outline'"
-        @click="userProfileHandler()"
-        aria-label="Profil użytkownika"
-      />
+      <div class="action--right">
+        <BaseButton
+          :has-icon="userStore.isLogged ? true : false"
+          :icon="IconTypes.User"
+          :text="userStore.isLogged ? '' : 'Zaloguj'"
+          button-type="default"
+          @click="userProfileHandler()"
+          aria-label="Profil użytkownika"
+        />
+      </div>
     </div>
   </div>
 
@@ -74,6 +78,13 @@ function infoModalHandler() {
 
 .wrapper:deep(button) {
   margin: 0;
+}
+
+.action--left,
+.action--right {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
 }
 
 img {

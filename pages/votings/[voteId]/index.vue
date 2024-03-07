@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { StatisticsData, GovernmentVoteType } from "~/types/types";
+import { type StatisticsData, type GovernmentVoteType, IconTypes } from "~/types/types";
 import BaseButton from "~/components/buttons/BaseButton.vue";
 import VotingCard from "~/components/cards/VotingCard.vue";
 import VoteItem from "~/components/cards/VoteItem.vue";
@@ -161,22 +161,26 @@ async function getStats(voteId: string) {
   isLoading.value = false;
 }
 
-// if (userStore.isLogged && userVote.voteExist) {
-//   try {
-//     isLoading.value = true;
-//     const { data } = await useFetch(`/api/votes/${route.params.voteId}/stats`);
-//     if (data.value) {
-//       genderVotes.value = data.value.data.gender;
-//       educationVotes.value = data.value.data.education;
-//       voidvodeshipVotes.value = data.value.data.voidvodeship;
-//       ageVotes.value = data.value.data.age;
-//       usersVotes.value = data.value.data.votes;
-//       isLoading.value = false;
-//     }
-//   } catch (error) {
-//     console.log(error);
-//   }
-// }
+const userVoteType = computed(() => {
+  switch (userVote.vote) {
+    case "yes":
+      console.log("tak");
+      return "success";
+      break;
+    case "no":
+      console.log("nie");
+      return "destroy";
+      break;
+    case "abstain":
+      console.log("hold");
+      return "warning";
+      break;
+
+    default:
+      return "disable";
+      break;
+  }
+});
 
 await getStats(vote.id);
 
@@ -204,7 +208,7 @@ useSeoMeta({
 <template>
   <div class="list__container">
     <div class="head">
-      <BaseButton text="Wróć" :hasIcon="false" @click="goBack" />
+      <BaseButton text="Wróć" :hasIcon="true" :icon="IconTypes.Back" @click="goBack" />
       <h1>Oddaj swój głos</h1>
     </div>
     <UiLoading v-if="isLoading" :text="loadingMessage" />
@@ -226,7 +230,7 @@ useSeoMeta({
         v-if="userVote.voteExist"
         :text="userVote.voteMsg"
         :has-icon="false"
-        button-type="disable"
+        :button-type="userVoteType"
       />
     </section>
     <section v-if="!isLoading">

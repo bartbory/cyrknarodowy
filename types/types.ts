@@ -94,15 +94,16 @@ export const enum VoteEnum {
 }
 
 export const enum IconTypes {
-  Eye = "eye",
   Yes = "yes",
   No = "no",
   Abstain = "abstain",
-  YesFont = "yes-font",
-  NoFont = "no-font",
-  AbstainFont = "abstain-font",
   Time = "time",
   Info = "info",
   Down = "down",
   User = "user",
+  Referendum = 'referendum',
+  Sitting = 'sitting',
+  Login = 'login',
+  Logout = 'logout',
+  Back = 'back'
 }

@@ -71,7 +71,7 @@ await fetchReferendum();
           button-type="outline"
           @click="
             () => {
-              router.push(`/?sitting=${sitting.sitting}`);
+              router.push(`/votings?sitting=${sitting.sitting}`);
             }
           "
         />
