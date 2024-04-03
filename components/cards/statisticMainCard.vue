@@ -22,9 +22,7 @@ let voteResult = {
   <UiBaseCard>
     <h2>{{ title }}</h2>
     <div class="row">
-      <p class="key">
-        <BaseIcon :icon="IconTypes.Yes" :icon-size="16" />Za
-      </p>
+      <p class="key"><BaseIcon :icon="IconTypes.Yes" :icon-size="16" />Za</p>
       <p class="value">{{ voteResult.yes }}</p>
     </div>
     <div class="row">

@@ -1,5 +1,5 @@
 import { PrismaClient } from "@prisma/client";
-import { StatisticsData } from "~/types/types";
+import { StatisticsData, UnregistredVotesData } from "~/types/types";
 const prisma = new PrismaClient();
 export default defineEventHandler(async (event) => {
   try {
@@ -624,7 +624,7 @@ export default defineEventHandler(async (event) => {
 
     const userVotes: StatisticsData[] = [
       {
-        key: "Głosowanie",
+        key: "Głosy",
         votes: {
           abstain: response!.userVotesAbstain.filter((user) => {
             return user.id;
@@ -639,6 +639,15 @@ export default defineEventHandler(async (event) => {
       },
     ];
 
+    const unregistredUserVotes: UnregistredVotesData = {
+      key: "Głosy użytkowników nie zarejestrowanych",
+      votes: {
+        abstain: response!.unregistredUserVotesAbstain || 0,
+        no: response!.unregistredUserVotesNo || 0,
+        yes: response!.unregistredUserVotesYes || 0,
+      },
+    };
+
     return {
       data: {
         voidvodeship: voidvodeshipVotes,
@@ -646,6 +655,7 @@ export default defineEventHandler(async (event) => {
         education: educationVotes,
         age: ageVotes,
         votes: userVotes,
+        unregistredVotes: unregistredUserVotes,
       },
     };
   } catch (error: any) {

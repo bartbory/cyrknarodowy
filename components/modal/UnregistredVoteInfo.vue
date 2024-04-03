@@ -5,20 +5,18 @@ import BaseModal from "../ui/BaseModal.vue";
 
 <template>
   <BaseModal>
-    <h1>Cześć!</h1>
-    <p>Widzę że chcesz oddać głos, super!</p>
+    <h3>Widzę że głosujesz, super!</h3>
     <p>
-      Żeby to zrobić musisz założyć konto. Tylko dzięki temu, będziemy mogli
-      zbierać informacje o tym, jak głosują ludzie.
+      Jeśli nie jesteś zarejestrowany niestety nie zobaczysz szczegółowych wyników.
     </p>
     <p>
-      Dana nie są wrażliwe, zbieramy tylko dane na temat:
+      Nie zbieramy wrażliwych danych, zbieramy tylko dane na temat:
       <strong>roku urodzenia</strong>, <strong>województwa</strong>,
       <strong>płci</strong> i <strong>wykształcenia</strong>.
     </p>
     <p>
-      Wszystkie dane są oczywiście opcjonalne, możesz ich też nie wprowadzić,
-      ale wtedy statystyki będą znacznie uboższe 🫣
+      Wprowadzenie danych jest opcjonalne,
+      ale bez nich statystyki będą znacznie uboższe 🫣
     </p>
     <BaseButton
       button-type="success"

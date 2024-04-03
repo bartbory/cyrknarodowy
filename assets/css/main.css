@@ -31,12 +31,9 @@ body {
   width: 100%;
   min-height: 100vh;
   font-family: "Inter", "Helvetica", sans-serif;
+  background-color: rgb(252, 252, 252);
   color: rgb(var(--black));
   font-weight: 300;
-  background-image: url("/bg.jpg");
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
   padding-bottom: 40px;
 }
 

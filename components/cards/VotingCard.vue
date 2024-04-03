@@ -3,7 +3,13 @@ import BaseButton from "../buttons/BaseButton.vue";
 import BaseCard from "../ui/BaseCard.vue";
 import { IconTypes } from "~/types/types";
 
-const emits = defineEmits(["voteYes", "voteNo", "voteHold"]);
+const props = defineProps({
+  textYes: { type: String, required: false, default: "Za" },
+  textNo: { type: String, required: false, default: "Przeciw" },
+  textAbstain: { type: String, required: false, default: "Wstrzymuję się" },
+});
+
+const emits = defineEmits(["voteYes", "voteNo", "voteAbstain"]);
 </script>
 
 <template>
@@ -13,22 +19,22 @@ const emits = defineEmits(["voteYes", "voteNo", "voteHold"]);
         button-type="success"
         :has-icon="true"
         :icon="IconTypes.Yes"
-        text="Za"
+        :text="textYes"
         @click="emits('voteYes')"
       />
       <BaseButton
         button-type="destroy"
         :has-icon="true"
         :icon="IconTypes.No"
-        text="Przeciw"
+        :text="textNo"
         @click="emits('voteNo')"
       />
       <BaseButton
         button-type="warning"
         :has-icon="true"
         :icon="IconTypes.Abstain"
-        text="Wstrzymuję się"
-        @click="emits('voteHold')"
+        :text="textAbstain"
+        @click="emits('voteAbstain')"
       />
     </div>
   </BaseCard>

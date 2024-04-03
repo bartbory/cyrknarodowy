@@ -1,25 +1,15 @@
 <script setup lang="ts">
 import type { PropType } from "vue";
-import {
-  IconTypes,
-  type StatisticsData,
-  type UnregistredVotesData,
-} from "~/types/types";
+import { IconTypes, type UnregistredVotesData } from "~/types/types";
 import BaseIcon from "../ui/BaseIcon.vue";
 
 const props = defineProps({
   data: {
-    type: Array as PropType<StatisticsData[]>,
-    required: true,
-  },
-  unregistredData: {
     type: Object as PropType<UnregistredVotesData>,
-    required: false,
-    default: null,
+    required: true,
   },
   title: { type: String, required: true },
   tableTitle: { type: String, required: true },
-  showUnregistred: { type: Boolean, required: false, default: false },
 });
 </script>
 
@@ -39,17 +29,11 @@ const props = defineProps({
           <BaseIcon :icon="IconTypes.Abstain" :icon-size="16" />
         </div>
       </div>
-      <div class="row" v-for="votes in data" :key="votes.key">
-        <p class="key">{{ votes.key }}</p>
-        <p class="value">{{ votes.votes.yes.length }}</p>
-        <p class="value">{{ votes.votes.no.length }}</p>
-        <p class="value">{{ votes.votes.abstain.length }}</p>
-      </div>
-      <div class="row" v-if="showUnregistred">
-        <p class="key">{{ unregistredData.key }}</p>
-        <p class="value">{{ unregistredData.votes.yes }}</p>
-        <p class="value">{{ unregistredData.votes.no }}</p>
-        <p class="value">{{ unregistredData.votes.abstain }}</p>
+      <div class="row">
+        <p class="key">{{ data.key }}</p>
+        <p class="value">{{ data.votes.yes }}</p>
+        <p class="value">{{ data.votes.no }}</p>
+        <p class="value">{{ data.votes.abstain }}</p>
       </div>
     </div>
   </UiBaseCard>

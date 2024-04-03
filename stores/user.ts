@@ -5,6 +5,7 @@ export const useUserStore = defineStore("user", {
     return {
       isLogged: false,
       userId: "",
+      unregistredVotes: [] as Object[],
     };
   },
   actions: {
@@ -15,6 +16,11 @@ export const useUserStore = defineStore("user", {
     login(userId: string) {
       this.isLogged = true;
       this.userId = userId;
+    },
+    addUnregistredVote(voteId: string, voteType: string) {
+      this.unregistredVotes.push({ voteId: voteId, vote: voteType });
+      localStorage.setItem(voteId, voteType);
+      console.log(this.unregistredVotes);
     },
   },
 });

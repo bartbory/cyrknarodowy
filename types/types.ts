@@ -67,6 +67,11 @@ export interface StatisticsData {
   };
 }
 
+export interface UnregistredVotesData {
+  key: string;
+  votes: { abstain: number; no: number; yes: number };
+}
+
 export const enum Gender {
   Female = "Kobieta",
   Male = "Mężczyzna",
@@ -101,9 +106,9 @@ export const enum IconTypes {
   Info = "info",
   Down = "down",
   User = "user",
-  Referendum = 'referendum',
-  Sitting = 'sitting',
-  Login = 'login',
-  Logout = 'logout',
-  Back = 'back'
+  Referendum = "referendum",
+  Sitting = "sitting",
+  Login = "login",
+  Logout = "logout",
+  Back = "back",
 }

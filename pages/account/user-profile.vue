@@ -121,7 +121,7 @@ async function logOutHandler() {
 function goToMain() {
   isLoading.value = true;
   loadingMessage.value = "Wczytuję...";
-  navigateTo("/votings");
+  navigateTo("/");
 }
 </script>
 <template>

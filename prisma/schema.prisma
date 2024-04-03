@@ -27,38 +27,44 @@ model User {
 }
 
 model Vote {
-  id               String   @id @unique @default(cuid())
-  votingNumber     Int      @default(autoincrement())
-  date             String
-  description      String   @default("")
-  title            String   @default("")
-  topic            String   @default("")
-  userVotesYes     User[]   @relation(name: "referendumVoteYes")
-  userVotesNo      User[]   @relation(name: "referendumVoteNo")
-  userVotesAbstain User[]   @relation(name: "referendumVoteAbstain")
-  updatedAt        DateTime @updatedAt
+  id                          String   @id @unique @default(cuid())
+  votingNumber                Int      @default(autoincrement())
+  date                        String
+  description                 String   @default("")
+  title                       String   @default("")
+  topic                       String   @default("")
+  userVotesYes                User[]   @relation(name: "referendumVoteYes")
+  userVotesNo                 User[]   @relation(name: "referendumVoteNo")
+  userVotesAbstain            User[]   @relation(name: "referendumVoteAbstain")
+  unregistredUserVotesYes     Int      @default(0)
+  unregistredUserVotesNo      Int      @default(0)
+  unregistredUserVotesAbstain Int      @default(0)
+  updatedAt                   DateTime @updatedAt
 }
 
 model GovernmentVotes {
-  id               String @id @unique
-  date             String
-  abstain          Int
-  absent           Int    @default(0)
-  description      String @default("")
-  no               Int
-  yes              Int
-  sitting          Int
-  sittingDay       Int
-  term             Int
-  notParticipating Int    @default(0)
-  title            String @default("")
-  topic            String @default("")
-  totalVoted       Int
-  votingNumber     Int
-  kind             String
-  userVotesYes     User[] @relation(name: "voteYes")
-  userVotesNo      User[] @relation(name: "voteNo")
-  userVotesAbstain User[] @relation(name: "voteAbstain")
+  id                          String @id @unique
+  date                        String
+  abstain                     Int
+  absent                      Int    @default(0)
+  description                 String @default("")
+  no                          Int
+  yes                         Int
+  sitting                     Int
+  sittingDay                  Int
+  term                        Int
+  notParticipating            Int    @default(0)
+  title                       String @default("")
+  topic                       String @default("")
+  totalVoted                  Int
+  votingNumber                Int
+  kind                        String
+  userVotesYes                User[] @relation(name: "voteYes")
+  userVotesNo                 User[] @relation(name: "voteNo")
+  userVotesAbstain            User[] @relation(name: "voteAbstain")
+  unregistredUserVotesYes     Int    @default(0)
+  unregistredUserVotesNo      Int    @default(0)
+  unregistredUserVotesAbstain Int    @default(0)
 }
 
 model MPVote {

@@ -2,6 +2,7 @@
 import type { PropType } from "vue";
 import VoteItem from "../cards/VoteItem.vue";
 import ReferendumItem from "../cards/ReferendumItem.vue";
+import checkHasVotesOnList from "~/helpers/checkHasVotesOnList";
 import type {
   GovernmentVoteType,
   ReferendumVoteType,
@@ -22,11 +23,7 @@ const props = defineProps({
   },
 });
 
-const supabase = useSupabaseClient();
-const {
-  data: { user },
-} = await supabase.auth.getUser();
-
+const userStore = useUserStore();
 const router = useRouter();
 
 function goToVote(voteId: string) {
@@ -36,25 +33,10 @@ function goToVote(voteId: string) {
     router.push(`/referendum/${voteId}`);
   }
 }
-
-function checkHasVoted(vote: GovernmentVoteType | ReferendumVoteType) {
-  if (user) {
-    let hasVoted = false;
-    if (
-      vote.userVotesNo.find((u) => u.id === user.id) ||
-      vote.userVotesYes.find((u) => u.id === user.id) ||
-      vote.userVotesAbstain.find((u) => u.id === user.id)
-    ) {
-      hasVoted = true;
-      return hasVoted;
-    }
-    return hasVoted;
-  }
-}
 </script>
 
 <template>
-  <p v-if="votes?.length === 0">Brak informacji.</p>
+  <p v-if="votes?.length === 0">Brak głosowań</p>
   <section class="list" v-else>
     <VoteItem
       v-if="display === 'vote'"
@@ -63,7 +45,7 @@ function checkHasVoted(vote: GovernmentVoteType | ReferendumVoteType) {
       )"
       :key="item.votingNumber"
       :data="(item as GovernmentVoteType)"
-      :has-voted="checkHasVoted(item)"
+      :has-voted="checkHasVotesOnList(item, userStore.userId)"
       @click="goToVote(item.id)"
     />
     <ReferendumItem
@@ -73,7 +55,7 @@ function checkHasVoted(vote: GovernmentVoteType | ReferendumVoteType) {
       )"
       :key="item.votingNumber"
       :data="(item as ReferendumVoteType)"
-      :has-voted="checkHasVoted(item)"
+      :has-voted="checkHasVotesOnList(item, userStore.userId)"
       @click="goToVote(item.id)"
     />
   </section>

@@ -1,10 +1,17 @@
 <script setup lang="ts">
-import { type StatisticsData, type ReferendumVoteType, IconTypes } from "~/types/types";
+import {
+  type StatisticsData,
+  type ReferendumVoteType,
+  type UnregistredVotesData,
+  IconTypes,
+} from "~/types/types";
 import BaseButton from "~/components/buttons/BaseButton.vue";
 import VotingCard from "~/components/cards/VotingCard.vue";
 import checkForVotes from "~/helpers/checkForVotes";
 import ReferendumItem from "~/components/cards/ReferendumItem.vue";
 import InfoCard from "~/components/cards/InfoCard.vue";
+import StatisticMainCard from "~/components/cards/statisticMainCard.vue";
+import UnregistredVotesCard from "~/components/cards/unregistredVotesCard.vue";
 
 const userStore = useUserStore();
 
@@ -36,6 +43,10 @@ let voidvodeshipVotes: Ref<StatisticsData[]> = ref([]);
 let educationVotes: Ref<StatisticsData[]> = ref([]);
 let ageVotes: Ref<StatisticsData[]> = ref([]);
 let usersVotes: Ref<StatisticsData[]> = ref([]);
+let unregistredVotes: UnregistredVotesData = reactive({
+  key: "",
+  votes: { abstain: 0, no: 0, yes: 0 },
+});
 
 let userVote = reactive({
   vote: "",
@@ -45,7 +56,6 @@ let userVote = reactive({
 
 try {
   isLoading.value = true;
-  // console.log("zaczynam pobieranie");
   const { data } = await useFetch(`/api/referendum/${route.params.refId}`, {
     method: "GET",
   });
@@ -65,11 +75,17 @@ try {
         userVote.vote = "yes";
         userVote.voteMsg = "Twój głos: Za";
       }
-      isLoading.value = false;
-    } else {
-      isLoading.value = false;
-      console.log("Głos nie oddany");
+    } else if (!userStore.isLogged && localStorage.getItem(vote.id)) {
+      userVote.voteExist = true;
+      userVote.vote = localStorage.getItem(vote.id)!;
+      userVote.voteMsg =
+        localStorage.getItem(vote.id) === "yes"
+          ? "Twój głos: Za"
+          : localStorage.getItem(vote.id) === "no"
+          ? "Twój głos: Przeciw"
+          : "Twój głos: Wstrzymuję się";
     }
+    isLoading.value = false;
   }
 } catch (error) {
   console.log(error);
@@ -98,10 +114,21 @@ const userVoteType = computed(() => {
 
 async function userVoteHandler(refId: string, decision: string) {
   isLoading.value = true;
-  await useFetch(`/api/referendum/${refId}`, {
-    method: "post",
-    body: { user: userStore.userId, vote: decision },
-  });
+  if (userStore.isLogged) {
+    await useFetch(`/api/referendum/${refId}`, {
+      method: "post",
+      body: { user: userStore.userId, vote: decision },
+    });
+  } else {
+    userStore.addUnregistredVote(vote.id, decision);
+    await useFetch(`/api/referendum/${refId}/unregistred`, {
+      method: "post",
+      body: { vote: decision },
+    });
+    setTimeout(() => userModalCloseHandler(), 2000);
+  }
+  await getStats(vote.id);
+  isLoading.value = false;
 }
 
 function goBack() {
@@ -110,53 +137,30 @@ function goBack() {
   router.go(-1);
 }
 
-async function saveYes() {
-  if (userStore.isLogged) {
-    loadingMessage.value = "Wysyłam Twój głos";
-    isLoading.value = true;
+async function saveUserVote(voteType: "yes" | "no" | "abstain") {
+  isLoading.value = true;
+  loadingMessage.value = "Wysyłam Twój głos";
+  if (voteType === "yes") {
     userVote = {
       vote: "yes",
       voteMsg: "Twój głos: Za",
       voteExist: true,
     };
-    await userVoteHandler(vote!.id, "yes");
-    await getStats(vote.id);
-    isLoading.value = false;
-  } else {
-    userModalCloseHandler();
-  }
-}
-async function saveNo() {
-  if (userStore.isLogged) {
-    loadingMessage.value = "Wysyłam Twój głos";
-    isLoading.value = true;
+  } else if (voteType === "no") {
     userVote = {
       vote: "no",
       voteMsg: "Twój głos: Przeciw",
       voteExist: true,
     };
-    await userVoteHandler(vote!.id, "no");
-    await getStats(vote.id);
-    isLoading.value = false;
   } else {
-    userModalCloseHandler();
-  }
-}
-async function saveAbstain() {
-  if (userStore.isLogged) {
-    loadingMessage.value = "Wysyłam Twój głos";
-    isLoading.value = true;
     userVote = {
-      vote: "asbtain",
+      vote: "abstain",
       voteMsg: "Twój głos: Wstrzymuje się",
       voteExist: true,
     };
-    await userVoteHandler(vote.id, "abstain");
-    await getStats(vote.id);
-    isLoading.value = false;
-  } else {
-    userModalCloseHandler();
   }
+  await userVoteHandler(vote!.id, voteType);
+  isLoading.value = false;
 }
 
 async function getStats(refId: string) {
@@ -169,15 +173,16 @@ async function getStats(refId: string) {
       voidvodeshipVotes.value = data.value?.data.voidvodeship;
       ageVotes.value = data.value?.data.age;
       usersVotes.value = data.value?.data.votes;
-      isLoading.value = false;
+      unregistredVotes = data.value?.data.unregistredVotes;
     }
+    isLoading.value = false;
   } catch (error) {
     console.log(error);
     isLoading.value = false;
   }
 }
 
-getStats(vote.id);
+await getStats(vote.id);
 
 const seoData = reactive({
   ogTitle: `Cyrk Narodowy - Referendum - ${vote.title}`,
@@ -215,8 +220,7 @@ useSeoMeta({
       />
       <h1>Oddaj swój głos</h1>
     </div>
-    <UiLoading v-if="isLoading" :text="loadingMessage" />
-    <section v-else>
+    <section>
       <UiBaseImage :image-source="vote.id" :image-alt="vote.title" />
 
       <ReferendumItem
@@ -227,9 +231,11 @@ useSeoMeta({
       />
       <VotingCard
         v-if="vote && !userVote.voteExist"
-        @vote-no="saveNo"
-        @vote-yes="saveYes"
-        @vote-hold="saveAbstain"
+        text-no="Nie"
+        text-yes="Tak"
+        @vote-no="saveUserVote('no')"
+        @vote-yes="saveUserVote('yes')"
+        @vote-abstain="saveUserVote('abstain')"
       />
       <BaseButton
         v-if="userVote.voteExist"
@@ -239,34 +245,37 @@ useSeoMeta({
       />
     </section>
     <h1>Głosowanie użytkowników</h1>
+    <UiLoading v-if="isLoading" :text="loadingMessage" />
     <section v-if="!isLoading">
       <div class="votes__stats__container">
         <CardsStatisticAdditionalCard
           v-if="usersVotes"
           :data="usersVotes"
+          :unregistred-data="unregistredVotes"
+          :show-unregistred="true"
           title="Według głosów"
           table-title="Głos"
         />
         <CardsStatisticAdditionalCard
-          v-if="genderVotes && userVote.voteExist"
+          v-if="genderVotes && userVote.voteExist && userStore.isLogged"
           :data="genderVotes"
           title="Według płci"
           table-title="Płeć"
         />
         <CardsStatisticAdditionalCard
-          v-if="ageVotes && userVote.voteExist"
+          v-if="ageVotes && userVote.voteExist && userStore.isLogged"
           :data="ageVotes"
           title="Według wieku"
           table-title="Przedział wiekowy"
         />
         <CardsStatisticAdditionalCard
-          v-if="educationVotes && userVote.voteExist"
+          v-if="educationVotes && userVote.voteExist && userStore.isLogged"
           :data="educationVotes"
           title="Według wykształcenia"
           table-title="Wykształcenie"
         />
         <CardsStatisticAdditionalCard
-          v-if="voidvodeshipVotes && userVote.voteExist"
+          v-if="voidvodeshipVotes && userVote.voteExist && userStore.isLogged"
           :data="voidvodeshipVotes"
           title="Według województwa"
           table-title="Województwo"
