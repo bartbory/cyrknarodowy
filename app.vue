@@ -12,6 +12,7 @@ if (user) {
 
 <template>
   <div>
+    <VitePwaManifest />
     <NuxtLayout>
       <NuxtPage />
     </NuxtLayout>
